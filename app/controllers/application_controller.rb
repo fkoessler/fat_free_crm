@@ -15,6 +15,29 @@ class ApplicationController < ActionController::Base
   helper_method :called_from_index_page?, :called_from_landing_page?
   helper_method :klass
 
+  #I had to include the helpers manually, but normally
+  # helpers should be included automatically in Rails4..
+  helper AccountsHelper
+  helper AddressesHelper
+  helper AuthenticationsHelper
+  helper CampaignsHelper
+  helper ContactsHelper
+  helper EmailsHelper
+  helper FieldsHelper
+  helper GroupsHelper
+  helper HomeHelper
+  helper LeadsHelper
+  helper ListsHelper
+  helper OpportunitiesHelper
+  helper PasswordsHelper
+  helper RemoteLinkPaginationHelper
+  helper TagsHelper
+  helper TasksHelper
+  helper UsersHelper
+  helper VersionsHelper
+  helper JavascriptHelper
+  helper CommentsHelper
+
   respond_to :html, only: [:index, :show, :auto_complete]
   respond_to :js
   respond_to :json, :xml, except: :edit
