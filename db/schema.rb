@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150227123054) do
+ActiveRecord::Schema.define(version: 20150619132050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 20150227123054) do
     t.integer  "rating",                       default: 0,        null: false
     t.string   "category",         limit: 32
     t.text     "subscribed_users"
+    t.string   "clktsoc",          limit: 8
+    t.string   "clktcode",         limit: 8
   end
 
   add_index "accounts", ["assigned_to"], name: "index_accounts_on_assigned_to", using: :btree
@@ -176,6 +178,8 @@ ActiveRecord::Schema.define(version: 20150227123054) do
     t.string   "background_info"
     t.string   "skype",            limit: 128
     t.text     "subscribed_users"
+    t.string   "ctktsoc",          limit: 8
+    t.string   "ctknid",           limit: 8
   end
 
   add_index "contacts", ["assigned_to"], name: "index_contacts_on_assigned_to", using: :btree
@@ -451,6 +455,7 @@ ActiveRecord::Schema.define(version: 20150227123054) do
 
   add_index "versions", ["created_at"], name: "index_versions_on_created_at", using: :btree
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+  add_index "versions", ["related_id", "related_type"], name: "index_versions_on_related_id_and_related_type", using: :btree
   add_index "versions", ["transaction_id"], name: "index_versions_on_transaction_id", using: :btree
   add_index "versions", ["whodunnit"], name: "index_versions_on_whodunnit", using: :btree
 
