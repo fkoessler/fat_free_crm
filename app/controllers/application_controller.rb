@@ -4,6 +4,7 @@
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 class ApplicationController < ActionController::Base
+
   protect_from_forgery
 
   before_action :set_context
@@ -51,37 +52,30 @@ class ApplicationController < ActionController::Base
   # Common auto_complete handler for all core controllers.
   #----------------------------------------------------------------------------
   def auto_complete
-    @query = params[:auto_complete_query] || ''
-    @auto_complete = hook(:auto_complete, self, query: @query, user: current_user)
-    if @auto_complete.empty?
-      exclude_ids = auto_complete_ids_to_exclude(params[:related])
-      @auto_complete = klass.my.text_search(@query).search(id_not_in: exclude_ids).result.limit(10)
+    if params[:auto_complete_id]
+      @auto_complete = klass.my.where(id: params[:auto_complete_id])
+      @auto_complete ||= [klass.new]
     else
-      @auto_complete = @auto_complete.last
+      @query = params[:auto_complete_query] || ''
+      @auto_complete = hook(:auto_complete, self, query: @query, user: current_user)
+      if @auto_complete.empty?
+        exclude_ids = auto_complete_ids_to_exclude(params[:related])
+        @auto_complete = klass.my.text_search(@query).search(id_not_in: exclude_ids).result.limit(10)
+      else
+        @auto_complete = @auto_complete.last
+      end
     end
 
     session[:auto_complete] = controller_name.to_sym
     respond_to do |format|
       format.any(:js, :html)   { render partial: 'auto_complete' }
-      format.json do
-        render json: @auto_complete.inject({}){|h, a|
-                       h[a.id] = a.respond_to?(:full_name) ? h(a.full_name) : h(a.name); h
-                     }
-      end
+      format.json { render json: @auto_complete.map{|record|
+        { id: record.id, text: record.respond_to?(:full_name) ? record.full_name : record.name }
+      }}
     end
   end
 
-  private
-
-  #
-  # In rails 3, the default behaviour for handle_unverified_request is to delete the session
-  # and continue executing the request. However, we use cookie based authentication and need
-  # to halt proceedings. In Rails 4, use "protect_from_forgery with: :exception"
-  # See http://blog.nvisium.com/2014/09/understanding-protectfromforgery.html for more details.
-  #----------------------------------------------------------------------------
-  def handle_unverified_request
-    raise ActionController::InvalidAuthenticityToken
-  end
+private
 
   #
   # Takes { :related => 'campaigns/7' } or { :related => '5' }
@@ -93,7 +87,7 @@ class ApplicationController < ActionController::Base
     return [related.to_i].compact unless related.index('/')
     related_class, id = related.split('/')
     obj = related_class.classify.constantize.find_by_id(id)
-    if obj && obj.respond_to?(controller_name)
+    if obj and obj.respond_to?(controller_name)
       obj.send(controller_name).map(&:id)
     else
       []
@@ -113,7 +107,7 @@ class ApplicationController < ActionController::Base
   #----------------------------------------------------------------------------
   def set_context
     Time.zone = ActiveSupport::TimeZone[session[:timezone_offset]] if session[:timezone_offset]
-    if current_user.present? && (locale = current_user.preference[:locale]).present?
+    if current_user.present? and (locale = current_user.preference[:locale]).present?
       I18n.locale = locale
     elsif Setting.locale.present?
       I18n.locale = Setting.locale
@@ -187,7 +181,7 @@ class ApplicationController < ActionController::Base
   #----------------------------------------------------------------------------
   def called_from_index_page?(controller = controller_name)
     if controller != "tasks"
-      request.referer =~ %r{/#{controller}$}
+      request.referer =~ %r(/#{controller}$)
     else
       request.referer =~ /tasks\?*/
     end
@@ -195,7 +189,7 @@ class ApplicationController < ActionController::Base
 
   #----------------------------------------------------------------------------
   def called_from_landing_page?(controller = controller_name)
-    request.referer =~ %r{/#{controller}/\w+}
+    request.referer =~ %r(/#{controller}/\w+)
   end
 
   # Proxy current page for any of the controllers by storing it in a session.
@@ -227,11 +221,11 @@ class ApplicationController < ActionController::Base
 
   #----------------------------------------------------------------------------
   def asset
-    controller_name.singularize
+    self.controller_name.singularize
   end
 
   #----------------------------------------------------------------------------
-  def respond_to_not_found(*_types)
+  def respond_to_not_found(*types)
     flash[:warning] = t(:msg_asset_not_available, asset)
 
     respond_to do |format|
@@ -243,14 +237,14 @@ class ApplicationController < ActionController::Base
   end
 
   #----------------------------------------------------------------------------
-  def respond_to_related_not_found(related, *_types)
+  def respond_to_related_not_found(related, *types)
     asset = "note" if asset == "comment"
     flash[:warning] = t(:msg_cant_create_related, asset: asset, related: related)
 
     url = send("#{related.pluralize}_path")
     respond_to do |format|
       format.html { redirect_to(url) }
-      format.js   { render text: %(window.location.href = "#{url}";) }
+      format.js   { render text: %Q{window.location.href = "#{url}";} }
       format.json { render text: flash[:warning],  status: :not_found }
       format.xml  { render xml: [flash[:warning]], status: :not_found }
     end
@@ -271,9 +265,10 @@ class ApplicationController < ActionController::Base
   def redirection_url
     # Try to redirect somewhere sensible. Note: not all controllers have an index action
     url = if current_user.present?
-            (respond_to?(:index) && action_name != 'index') ? { action: 'index' } : root_url
-          else
-            login_url
+      (respond_to?(:index) and self.action_name != 'index') ? { action: 'index' } : root_url
+    else
+      login_url
     end
   end
+
 end

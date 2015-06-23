@@ -1,7 +1,9 @@
 !!!5
-%html
+%html{class: tabless_layout? ? "bg-black" : ""}
   %head
     %meta{ "http-equiv" => "Content-Type", :content => "text/html; charset=utf-8" }
+    %meta{ name: "viewport", content: "width=device-width, initial-scale= 1"}
+    
     %title Fat Free CRM
     == <!-- #{controller.controller_name} : #{controller.action_name} -->
     = stylesheet_link_tag :application
@@ -33,13 +35,17 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-  %body
+  %body{class: tabless_layout? ? "bg-black" : "skin-blue"}
     = render "layouts/header"
     - if tabless_layout?
       = render "layouts/tabless"
     - else
-      = render "layouts/tabbed"
-      = render "layouts/footer"
+      %div.wrapper.row-offcanvas.row-offcanvas-left
+        %aside.left-side.sidebar-offcanvas
+          = render "layouts/tabbed"
+        %aside.right-side
+          = render "layouts/content"
+          = render "layouts/footer"
 
     %script{:type => "text/javascript"}
       = "crm.base_url = '#{Setting.base_url}';" unless Setting.base_url.blank?

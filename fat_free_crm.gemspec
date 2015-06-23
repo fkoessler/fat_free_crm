@@ -48,6 +48,13 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rails_autolink'
   gem.add_dependency 'coffee-script-source', '~>1.8.0' # pegged until https://github.com/jashkenas/coffeescript/issues/3829 is resolved
   gem.add_dependency 'country_select'
+  
+  # Gems for the AdminLTE theme
+  #-------------------------------
+  gem.add_dependency 'adminlte-rails'
+  gem.add_dependency 'less-rails'
+  gem.add_dependency 'jquery-datatables-rails'
+  gem.add_dependency 'ajax-datatables-rails'
 
   # FatFreeCRM has released it's own versions of the following gems:
   #-----------------------------------------------------------------

@@ -1,0 +1,249 @@
+//Screen widths - Same as bootstrap default settings
+@screen-xs: 480px;
+@screen-sm: 767px;
+@screen-md: 992px;
+@screen-lg: 1200px;
+
+//border radius creator
+.border-radius(@radius) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    border-radius: @radius;
+}
+
+// Content Header 
+.right-side > .content-header {
+    padding: 10px 15px 10px 20px;   
+    // Header Text 
+    > h1 {
+        margin: 0;
+        padding-top: 3px;
+        font-size: 24px;
+        > small {
+            font-size: 15px;
+            display: inline-block;
+            padding-left: 4px;
+            font-weight: 300;
+        }
+    }
+
+    
+    > .header-tools {
+        float: right;
+        background: transparent;
+        margin-top: 0px;
+        margin-bottom: 0;
+        font-size: 12px;
+        padding: 7px 5px;
+        position: absolute;
+        top: 3px;
+        right: 10px;
+        .border-radius(2px);
+        > li > a {
+            color: #444;
+            text-decoration: none;
+            > .fa, > .glyphicon, > .ion {
+                margin-right: 5px;
+            }            
+        }
+        > li + li:before {
+            content: '|\00a0';
+        }
+    }
+
+    @media screen and (max-width: @screen-sm) {
+        > .header-tools {
+            position: relative;
+            margin-top: 3px;
+            top: 0;
+            right: 0;
+            float: none;
+            background: #efefef;
+        }
+    }
+}
+
+body > .header .logo {
+  font-family: "Lucida Grande", Geneva, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.skin-blue .left-side {
+  box-shadow: initial;
+  
+}
+
+.bg-white {
+  background: #fff;
+}
+
+ul.format-buttons {
+  display: inline;
+}
+
+.box.box-solid.box-primary > .box-header a {
+  color: #fff;
+}
+
+.box-header .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'FontAwesome';
+    content: "\f0d7";    /* adjust as needed, taken from bootstrap.css */
+    float: left;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+    padding-right: 4px;
+}
+
+.box-header .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\f0da";    /* adjust as needed, taken from bootstrap.css */
+}
+
+.box .box-header h4.box-title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#accordion > .box {
+  border-top: initial;
+  border-radius: 0;
+}
+
+.box.no-border {
+  box-shadow: initial;
+  border-radius: 0;
+}
+
+.no-top-border {
+  border-top: initial !important;
+}
+
+.two-col {
+  max-width: 700px;
+}
+
+.icheckbox_minimal, .iradio_minimal {
+ margin-right: 10px; 
+}
+
+/* Entity Lists */
+
+.indent {
+  margin-left: 48px;
+}
+
+// Single-row lists.
+//------------------------------------------------------------------------------
+.log {
+  padding: 8px 0px 0px 0px;
+  h3 {
+    border-bottom: 1px #2f2f2f dotted;
+    color: #2f2f2f;
+    margin: 0px 0px 4px 0px;
+    padding: 2px 0px 2px 86px;
+    &.overdue {
+      color: crimson;
+      border-bottom: 1px crimson dotted; }
+    &.due_asap {
+      color: darkred;
+      border-bottom: 1px darkred dotted; }
+    &.due_today {
+      color: darkgreen;
+      border-bottom: 1px darkgreen dotted; } }
+  li {
+    color: #3f3f3f;
+    font-size: 12px;
+    list-style: none;
+    padding: 3px 0px 3px 0px;
+    .gravatar {
+      float: left;
+      padding: 0px 0px 0px 0px; }
+    tt {
+      color: dimgray;
+      font-size: 11px; } }
+  input[type=checkbox] {
+    float: left;
+    margin: 0px 4px 0px 0px; } 
+}
+
+
+
+// Two-row lists.
+//------------------------------------------------------------------------------
+.list {
+  padding: 8px 0px 7px 0px;
+  li {
+    border-bottom: 1px silver dotted;
+    clear: both;
+    color: #3f3f3f;
+    //font-size: 12px;
+    list-style: none;
+    padding: 8px 0px 5px 0px;
+    .tool-button {
+      float: right; 
+      margin-right:10px;
+      padding-top: 4px;
+      li {
+        border: 0;
+        padding: initial;
+      }
+    }
+    .gravatar {
+      float: left;
+      padding: 0px 0px 0px 0px; }
+    tt {
+      color: dimgray;
+      font-size: 13px; 
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+    dt {
+      color: #3f3f3f;
+      font-size: 13px;
+      font-weight: 400;
+      padding: 2px 0px 0px 0px; } }
+	li.version {
+		font-size: 11px;
+		font-weight: bold;
+		tt {
+			font-weight: normal;
+		}
+	}
+  input[type=checkbox] {
+    float: left;
+    margin: 0px 4px 0px 0px; } 
+	.comment {
+		tt {
+			display: inline;
+   		font-size: 11px;
+   		color: #333333; }
+ 		dt {
+   		padding: 0px;
+   		margin: 0px 0px 0px 29px;
+			color: #666666;
+   			p {
+     			margin: 10px 0px 0px 0px; } }
+		border-bottom: none;
+	}
+}
+
+.highlight:hover {
+  background-color: aliceblue;
+}
+
+.open > .dropdown-menu {
+  -webkit-transform: scale(1, 1);
+  transform: scale(1, 1);  
+  opacity:1;
+}
+  
+.dropdown-menu {
+  opacity:.3;
+  -webkit-transform-origin: top;
+  transform-origin: top;
+  -webkit-animation-fill-mode: forwards;  
+  animation-fill-mode: forwards; 
+  -webkit-transform: scale(1, 0);
+  display: block; 
+  transition: all 0.1s linear;
+  -webkit-transition: all 0.1s linear;
+}
