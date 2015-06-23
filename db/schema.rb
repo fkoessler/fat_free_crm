@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150619132050) do
+ActiveRecord::Schema.define(version: 20150623125956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20150619132050) do
   end
 
   add_index "accounts", ["assigned_to"], name: "index_accounts_on_assigned_to", using: :btree
+  add_index "accounts", ["clktsoc", "clktcode"], name: "index_accounts_on_clktsoc_and_clktcode", using: :btree
   add_index "accounts", ["user_id", "name", "deleted_at"], name: "index_accounts_on_user_id_and_name_and_deleted_at", unique: true, using: :btree
 
   create_table "activities", force: :cascade do |t|
@@ -183,6 +184,7 @@ ActiveRecord::Schema.define(version: 20150619132050) do
   end
 
   add_index "contacts", ["assigned_to"], name: "index_contacts_on_assigned_to", using: :btree
+  add_index "contacts", ["ctktsoc", "ctknid"], name: "index_contacts_on_ctktsoc_and_ctknid", using: :btree
   add_index "contacts", ["user_id", "last_name", "deleted_at"], name: "id_last_name_deleted", unique: true, using: :btree
 
   create_table "emails", force: :cascade do |t|
