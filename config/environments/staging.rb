@@ -17,7 +17,7 @@ if defined?(FatFreeCRM::Application)
     config.action_controller.perform_caching = true
 
     # Disable Rails's static asset server (Apache or nginx will already do this)
-    config.serve_static_assets = true
+    config.serve_static_files = true
 
     # Compress JavaScripts and CSS
     config.assets.compress = true
@@ -52,7 +52,6 @@ if defined?(FatFreeCRM::Application)
 
     # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
     # config.assets.precompile += %w( search.js )
-    config.assets.precompile += ['print.css', 'jquery_ui_datepicker/*.js']
 
     # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
     # the I18n.default_locale when a translation can not be found)
