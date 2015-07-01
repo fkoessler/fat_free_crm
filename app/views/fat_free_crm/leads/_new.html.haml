@@ -1,0 +1,24 @@
+= simple_form_for(@lead, :html => one_submit_only, :remote => true) do |f|
+  = link_to_close new_lead_path
+  = f.hidden_field :user_id
+  = hidden_field_tag "campaign", "#{@campaign.id if @campaign}"
+
+  = f.error_messages :object_name => t('lead')
+
+  = render "fat_free_crm/leads/top_section",    :f => f
+  = render "fat_free_crm/fields/edit_custom_field_group", :f => f
+  = render "fat_free_crm/leads/status",         :f => f
+  = render "fat_free_crm/leads/contact",        :f => f
+  = render "fat_free_crm/shared/add_comment",   :f => f
+  = render "fat_free_crm/leads/web",            :f => f
+  = render "fat_free_crm/fields/groups",        :f => f
+  = render "fat_free_crm/entities/permissions", :f => f, :entity => @lead
+  = hook(:entity_form, self, {f: f, entity: @lead})
+
+  .buttonbar
+    - if Setting.compound_address
+      = f.submit t(:create_lead), :onclick => "crm.clear_all_hints()"
+    - else
+      = f.submit t(:create_lead)
+    #{t :or}
+    = link_to_cancel new_lead_path
