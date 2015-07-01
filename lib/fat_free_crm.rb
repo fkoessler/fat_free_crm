@@ -4,30 +4,12 @@
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 
+# Load Fat Free CRM as a Rails Engine
+require 'fat_free_crm/engine'
+
 module FatFreeCRM
   class << self
-    # Return either Application or Engine,
-    # depending on how Fat Free CRM has been loaded
-    def application
-      engine? ? Engine : Application
-    end
-
-    delegate :root, to: :application
-
-    # Are we running as an engine?
-    def engine?
-      defined?(FatFreeCRM::Engine).present?
-    end
-
-    def application?
-      !engine?
-    end
   end
-end
-
-# Load Fat Free CRM as a Rails Engine, unless running as a Rails Application
-unless defined?(FatFreeCRM::Application)
-  require 'fat_free_crm/engine'
 end
 
 require 'fat_free_crm/load_settings' # register load hook for Setting

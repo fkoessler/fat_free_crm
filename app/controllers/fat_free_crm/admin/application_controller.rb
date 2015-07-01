@@ -7,7 +7,7 @@ class FatFreeCRM::Admin::ApplicationController < FatFreeCRM::ApplicationControll
   before_action :require_admin_user
 
   layout "admin/application"
-  helper "admin/field_groups"
+  helper "fat_free_crm/admin/field_groups"
 
   # Autocomplete handler for all admin controllers.
   #----------------------------------------------------------------------------
