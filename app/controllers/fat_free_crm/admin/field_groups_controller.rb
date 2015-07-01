@@ -4,7 +4,7 @@
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
 class FatFreeCRM::Admin::FieldGroupsController < FatFreeCRM::Admin::ApplicationController
-  helper 'admin/fields'
+  helper 'fat_free_crm/admin/fields'
 
   # GET /admin/field_groups/new
   # GET /admin/field_groups/new.xml                                        AJAX

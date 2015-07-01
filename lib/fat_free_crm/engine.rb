@@ -5,8 +5,11 @@
 #------------------------------------------------------------------------------
 module FatFreeCRM
   class Engine < ::Rails::Engine
+
+    isolate_namespace FatFreeCRM
+
     config.autoload_paths += Dir[root.join("app/models/**")] +
-                             Dir[root.join("app/controllers/entities")]
+                             Dir[root.join("app/controllers/fat_free_crm/entities")]
 
     config.active_record.observers = [:lead_observer, :opportunity_observer,
                                       :task_observer, :entity_observer]
