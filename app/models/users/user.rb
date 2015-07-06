@@ -42,21 +42,21 @@ class User < ActiveRecord::Base
   before_create :check_if_needs_approval
   before_destroy :check_if_current_user, :check_if_has_related_assets
 
-  has_one :avatar, as: :entity, dependent: :destroy  # Personal avatar.
-  has_many :avatars                                         # As owner who uploaded it, ex. Contact avatar.
-  has_many :comments, as: :commentable                   # As owner who created a comment.
-  has_many :accounts
-  has_many :campaigns
-  has_many :leads
-  has_many :contacts
-  has_many :opportunities
-  has_many :assigned_opportunities, class_name: 'Opportunity', foreign_key: 'assigned_to'
+  has_one :avatar, as: :entity, dependent: :destroy, class_name: 'FatFreeCRM::Avatar'  # Personal avatar.
+  has_many :avatars, class_name: 'FatFreeCRM::Avatar'                                  # As owner who uploaded it, ex. Contact avatar.
+  has_many :comments, as: :commentable, class_name: 'FatFreeCRM::Comment'              # As owner who created a comment.
+  has_many :accounts, class_name: 'FatFreeCRM::Account'
+  has_many :campaigns, class_name: 'FatFreeCRM::Campaign'
+  has_many :leads, class_name: 'FatFreeCRM::Lead'
+  has_many :contacts, class_name: 'FatFreeCRM::Contact'
+  has_many :opportunities, class_name: 'FatFreeCRM::Opportunity'
+  has_many :assigned_opportunities, class_name: 'FatFreeCRM::Opportunity', foreign_key: 'assigned_to'
   has_many :permissions, dependent: :destroy
   has_many :preferences, dependent: :destroy
-  has_many :lists
+  has_many :lists, class_name: 'FatFreeCRM::List'
   has_and_belongs_to_many :groups
 
-  has_paper_trail class_name: 'Version', ignore: [:perishable_token]
+  has_paper_trail class_name: 'FatFreeCRM::Version', ignore: [:perishable_token]
 
   scope :by_id, -> { order('id DESC') }
   scope :without, ->(user) { where('id != ?', user.id).by_name }
@@ -70,8 +70,8 @@ class User < ActiveRecord::Base
   scope :my, -> { accessible_by(User.current_ability) }
 
   scope :have_assigned_opportunities, -> {
-    joins("INNER JOIN opportunities ON users.id = opportunities.assigned_to")
-      .where("opportunities.stage <> 'lost' AND opportunities.stage <> 'won'")
+    joins("INNER JOIN fat_free_crm_opportunities ON users.id = fat_free_crm_opportunities.assigned_to")
+      .where("fat_free_crm_opportunities.stage <> 'lost' AND fat_free_crm_opportunities.stage <> 'won'")
       .select('DISTINCT(users.id), users.*')
   }
 
@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
 
   #----------------------------------------------------------------------------
   def awaits_approval?
-    self.suspended? && login_count == 0 && Setting.user_signup == :needs_approval
+    self.suspended? && login_count == 0 && FatFreeCRM::Setting.user_signup == :needs_approval
   end
 
   #----------------------------------------------------------------------------
@@ -120,7 +120,7 @@ class User < ActiveRecord::Base
   #----------------------------------------------------------------------------
   def deliver_password_reset_instructions!
     reset_perishable_token!
-    UserMailer.password_reset_instructions(self).deliver_now
+    FatFreeCRM::UserMailer.password_reset_instructions(self).deliver_now
   end
 
   # Override global I18n.locale if the user has individual local preference.
@@ -148,7 +148,7 @@ class User < ActiveRecord::Base
   # Suspend newly created user if signup requires an approval.
   #----------------------------------------------------------------------------
   def check_if_needs_approval
-    self.suspended_at = Time.now if Setting.user_signup == :needs_approval && !admin
+    self.suspended_at = Time.now if FatFreeCRM::Setting.user_signup == :needs_approval && !admin
   end
 
   # Prevent current user from deleting herself.
@@ -160,9 +160,9 @@ class User < ActiveRecord::Base
   # Prevent deleting a user unless she has no artifacts left.
   #----------------------------------------------------------------------------
   def check_if_has_related_assets
-    artifacts = %w(Account Campaign Lead Contact Opportunity Comment Task).inject(0) do |sum, asset|
+    artifacts = %w(FatFreeCRM::Account FatFreeCRM::Campaign FatFreeCRM::Lead FatFreeCRM::Contact FatFreeCRM::Opportunity FatFreeCRM::Comment FatFreeCRM::Task).inject(0) do |sum, asset|
       klass = asset.constantize
-      sum += klass.assigned_to(self).count if asset != "Comment"
+      sum += klass.assigned_to(self).count if asset != "FatFreeCRM::Comment"
       sum += klass.created_by(self).count
     end
     artifacts == 0
@@ -176,9 +176,9 @@ class User < ActiveRecord::Base
     end
 
     def can_signup?
-      [:allowed, :needs_approval].include? Setting.user_signup
+      [:allowed, :needs_approval].include? FatFreeCRM::Setting.user_signup
     end
   end
 
-  ActiveSupport.run_load_hooks(:fat_free_crm_user, self)
+  ActiveSupport.run_load_hooks(:user, self)
 end

@@ -10,9 +10,9 @@ class FatFreeCRM::HomeController < FatFreeCRM::ApplicationController
   #----------------------------------------------------------------------------
   def index
     @activities = get_activities
-    @my_tasks = Task.visible_on_dashboard(current_user).includes(:user, :asset).by_due_at
-    @my_opportunities = Opportunity.visible_on_dashboard(current_user).includes(:account, :user, :tags).by_closes_on.by_amount
-    @my_accounts = Account.visible_on_dashboard(current_user).includes(:user, :tags).by_name
+    @my_tasks = FatFreeCRM::Task.visible_on_dashboard(current_user).includes(:user, :asset).by_due_at
+    @my_opportunities = FatFreeCRM::Opportunity.visible_on_dashboard(current_user).includes(:account, :user, :tags).by_closes_on.by_amount
+    @my_accounts = FatFreeCRM::Account.visible_on_dashboard(current_user).includes(:user, :tags).by_name
     respond_with(@activities)
   end
 
@@ -66,8 +66,8 @@ class FatFreeCRM::HomeController < FatFreeCRM::ApplicationController
         end
       else
         comments, emails = params[:id].split("+")
-        Comment.where(id: comments.split(',')).update_all(state: state) unless comments.blank?
-        Email.where(id: emails.split(',')).update_all(state: state) unless emails.blank?
+        FatFreeCRM::Comment.where(id: comments.split(',')).update_all(state: state) unless comments.blank?
+        FatFreeCRM::Email.where(id: emails.split(',')).update_all(state: state) unless emails.blank?
       end
     end
 
@@ -98,7 +98,7 @@ class FatFreeCRM::HomeController < FatFreeCRM::ApplicationController
     options[:duration] ||= activity_duration
     options[:max]      ||= 500
 
-    Version.includes(user: [:avatar]).latest(options).visible_to(current_user)
+    (FatFreeCRM::Version.includes(user: [:avatar])).latest.visible_to(current_user)
   end
 
   #----------------------------------------------------------------------------

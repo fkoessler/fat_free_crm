@@ -8,11 +8,11 @@ module FatFreeCRM
 
     isolate_namespace FatFreeCRM
 
-    config.autoload_paths += Dir[root.join("app/models/**")] +
-                             Dir[root.join("app/controllers/fat_free_crm/entities")]
+    config.autoload_paths += Dir[root.join("app/models/**/")] +
+        Dir[root.join("app/controllers/fat_free_crm/entities")]
 
-    config.active_record.observers = [:lead_observer, :opportunity_observer,
-                                      :task_observer, :entity_observer]
+    config.active_record.observers = ['FatFreeCRM::EntityObserver', 'FatFreeCRM::LeadObserver',
+                                      'FatFreeCRM::OpportunityObserver', 'FatFreeCRM::TaskObserver']
 
     initializer "model_core.factories", :after => "factory_girl.set_factory_paths" do
       FactoryGirl.definition_file_paths << File.expand_path('../../../spec/factories', __FILE__) if defined?(FactoryGirl)

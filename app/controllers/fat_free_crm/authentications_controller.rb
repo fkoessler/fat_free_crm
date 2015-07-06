@@ -10,6 +10,7 @@ class FatFreeCRM::AuthenticationsController < FatFreeCRM::ApplicationController
   #----------------------------------------------------------------------------
   def new
     @authentication = Authentication.new
+    Rails.logger.debug Authentication.inspect
   end
 
   #----------------------------------------------------------------------------

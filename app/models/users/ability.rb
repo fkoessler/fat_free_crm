@@ -13,21 +13,21 @@ class Ability
     can(:create, User) if User.can_signup?
 
     if user.present?
-      entities = [Account, Campaign, Contact, Lead, Opportunity]
+      entities = [FatFreeCRM::Account, FatFreeCRM::Campaign, FatFreeCRM::Contact, FatFreeCRM::Lead, FatFreeCRM::Opportunity]
 
       # User
       can :manage, User, id: user.id # can do any action on themselves
 
       # Tasks
-      can :create, Task
-      can :manage, Task, user: user.id
-      can :manage, Task, assigned_to: user.id
-      can :manage, Task, completed_by: user.id
+      can :create, FatFreeCRM::Task
+      can :manage, FatFreeCRM::Task, user: user.id
+      can :manage, FatFreeCRM::Task, assigned_to: user.id
+      can :manage, FatFreeCRM::Task, completed_by: user.id
 
       # Entities
       can :manage, entities, access: 'Public'
-      can :manage, entities + [Task], user_id: user.id
-      can :manage, entities + [Task], assigned_to: user.id
+      can :manage, entities + [FatFreeCRM::Task], user_id: user.id
+      can :manage, entities + [FatFreeCRM::Task], assigned_to: user.id
 
       #
       # Due to an obscure bug (see https://github.com/ryanb/cancan/issues/213)
@@ -55,5 +55,5 @@ class Ability
     end
   end
 
-  ActiveSupport.run_load_hooks(:fat_free_crm_ability, self)
+  ActiveSupport.run_load_hooks(:ability, self)
 end

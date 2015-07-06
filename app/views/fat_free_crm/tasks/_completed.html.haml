@@ -1,4 +1,4 @@
-%li.highlight[completed]
+%li.highlight{id: "#{completed.class.name.demodulize.underscore}_#{completed.id}", class: "#{completed.class.name.demodulize.underscore}"}
   - unless completed.category.blank?
     .strip{:class => completed.category}= t(completed.category)
   - else

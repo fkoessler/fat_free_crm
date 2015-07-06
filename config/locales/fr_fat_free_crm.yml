@@ -675,7 +675,7 @@ fr:
   notifications_tooltip: Les utilisateurs abonnés recevront les nouveaux commentaires par email
   subscribe_via_email: S'abonner par email
   disable_email_subscriptions: Annuler l'abonnement email
-  added_note: Ajout de lq note %{value}
+  added_note: Ajout de la note %{value}
 
   # Views -> Emails.
   #----------------------------------------------------------------------------

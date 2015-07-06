@@ -32,7 +32,7 @@ class FatFreeCRM::CommentsController < FatFreeCRM::ApplicationController
   # GET /comments/1/edit                                                   AJAX
   #----------------------------------------------------------------------------
   def edit
-    @comment = Comment.find(params[:id])
+    @comment = FatFreeCRM::Comment.find(params[:id])
 
     model, id = @comment.commentable_type, @comment.commentable_id
     unless model.constantize.my.find_by_id(id)
@@ -45,7 +45,7 @@ class FatFreeCRM::CommentsController < FatFreeCRM::ApplicationController
   # POST /comments.xml                                                     AJAX
   #----------------------------------------------------------------------------
   def create
-    @comment = Comment.new(
+    @comment = FatFreeCRM::Comment.new(
       comment_params.merge(user_id: current_user.id)
     )
     # Make sure commentable object exists and is accessible to the current user.
@@ -63,7 +63,7 @@ class FatFreeCRM::CommentsController < FatFreeCRM::ApplicationController
   # PUT /comments/1.xml                                          not implemened
   #----------------------------------------------------------------------------
   def update
-    @comment = Comment.find(params[:id])
+    @comment = FatFreeCRM::Comment.find(params[:id])
     @comment.update_attributes(comment_params)
     respond_with(@comment)
   end
@@ -73,7 +73,7 @@ class FatFreeCRM::CommentsController < FatFreeCRM::ApplicationController
   # DELETE /comments/1.xml                                      not implemented
   #----------------------------------------------------------------------------
   def destroy
-    @comment = Comment.find(params[:id])
+    @comment = FatFreeCRM::Comment.find(params[:id])
     @comment.destroy
     respond_with(@comment)
   end

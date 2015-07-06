@@ -104,7 +104,7 @@ module FatFreeCRM::ApplicationHelper
   def link_to_edit(record, options = {})
     object = record.is_a?(Array) ? record.last : record
 
-    name = (params[:klass_name] || object.class.name).underscore.downcase
+    name = (params[:klass_name] || object.class.name.demodulize).underscore.downcase
     link_to(t(:edit),
             options[:url] || polymorphic_url(record, action: :edit),
             remote:  true,
@@ -159,8 +159,8 @@ module FatFreeCRM::ApplicationHelper
   #----------------------------------------------------------------------------
   def link_to_email(email, length = nil, &_block)
     name = (length ? truncate(email, length: length) : email)
-    if Setting.email_dropbox && Setting.email_dropbox[:address].present?
-      mailto = "#{email}?bcc=#{Setting.email_dropbox[:address]}"
+    if FatFreeCRM::Setting.email_dropbox && FatFreeCRM::Setting.email_dropbox[:address].present?
+      mailto = "#{email}?bcc=#{FatFreeCRM::Setting.email_dropbox[:address]}"
     else
       mailto = email
     end
@@ -244,7 +244,7 @@ module FatFreeCRM::ApplicationHelper
   #----------------------------------------------------------------------------
   def refresh_sidebar_for(view, action = nil, shake = nil)
     text = ""
-    text << "$('#sidebar').html('#{ j render(partial: 'layouts/sidebar', locals: { view: view, action: action }) }');"
+    text << "$('#sidebar').html('#{ j render(partial: 'layouts/fat_free_crm/sidebar', locals: { view: view, action: action }) }');"
     text << "$('##{j shake.to_s}').effect('shake', { duration:200, distance: 3 });" if shake
     text.html_safe
   end
@@ -314,7 +314,7 @@ module FatFreeCRM::ApplicationHelper
     if model.respond_to?(:avatar) && model.avatar.present?
       image_tag(model.avatar.image.url(args.delete(:size)), args)
     else
-      args = Avatar.size_from_style!(args) # convert size format :large => '75x75'
+      args = FatFreeCRM::Avatar.size_from_style!(args) # convert size format :large => '75x75'
       gravatar_image_tag(model.email, args)
     end
   end

@@ -1,4 +1,4 @@
-%li.highlight[lead]
+%li.highlight{id: "#{lead.class.name.demodulize.underscore}_#{lead.id}", class: "#{lead.class.name.demodulize.underscore}"}
   - if lead.status
     .strip{:class => lead.status}= t lead.status
   - else

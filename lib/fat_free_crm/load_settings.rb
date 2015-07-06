@@ -13,6 +13,6 @@ ActiveSupport.on_load(:fat_free_crm_setting) do
   setting_files = [FatFreeCRM::Engine.root.join("config", "settings.default.yml")]
   setting_files << Rails.root.join("config", "settings.yml") unless Rails.env == 'test'
   setting_files.each do |settings_file|
-    Setting.load_settings_from_yaml(settings_file) if File.exist?(settings_file)
+    FatFreeCRM::Setting.load_settings_from_yaml(settings_file) if File.exist?(settings_file)
   end
 end

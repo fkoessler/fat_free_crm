@@ -21,7 +21,7 @@ xml.Worksheet 'ss:Name' => I18n.t(:tab_opportunities) do
                  I18n.t('date_updated')]
 
         # Append custom field labels to header
-        Opportunity.fields.each do |field|
+        FatFreeCRM::Opportunity.fields.each do |field|
           heads << field.label
         end
 
@@ -54,7 +54,7 @@ xml.Worksheet 'ss:Name' => I18n.t(:tab_opportunities) do
                   opportunity.updated_at]
 
           # Append custom field values.
-          Opportunity.fields.each do |field|
+          FatFreeCRM::Opportunity.fields.each do |field|
             data << opportunity.send(field.name)
           end
 

@@ -27,7 +27,7 @@ xml.Worksheet 'ss:Name' => I18n.t(:tab_accounts) do
                  I18n.t('address')]
 
         # Append custom field labels to header
-        Account.fields.each do |field|
+        FatFreeCRM::Account.fields.each do |field|
           heads << field.label
         end
 
@@ -67,7 +67,7 @@ xml.Worksheet 'ss:Name' => I18n.t(:tab_accounts) do
                      address.try(:full_address)]
 
           # Append custom field values.
-          Account.fields.each do |field|
+          FatFreeCRM::Account.fields.each do |field|
             data << account.send(field.name)
           end
 

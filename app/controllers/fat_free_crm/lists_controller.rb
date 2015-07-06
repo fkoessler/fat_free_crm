@@ -14,10 +14,10 @@ class FatFreeCRM::ListsController < FatFreeCRM::ApplicationController
     end
 
     # Find any existing list with the same name (case insensitive)
-    if @list = List.where("lower(name) = ?", list_params[:name].downcase).where(user_id: list_params[:user_id]).first
+    if @list = FatFreeCRM::List.where("lower(name) = ?", list_params[:name].downcase).where(user_id: list_params[:user_id]).first
       @list.update_attributes(list_params)
     else
-      @list = List.create(list_params)
+      @list = FatFreeCRM::List.create(list_params)
     end
 
     respond_with(@list)
@@ -26,7 +26,7 @@ class FatFreeCRM::ListsController < FatFreeCRM::ApplicationController
   # DELETE /lists/1
   #----------------------------------------------------------------------------
   def destroy
-    @list = List.find(params[:id])
+    @list = FatFreeCRM::List.find(params[:id])
     @list.destroy
 
     respond_with(@list)

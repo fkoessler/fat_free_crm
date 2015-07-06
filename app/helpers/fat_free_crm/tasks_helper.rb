@@ -86,14 +86,14 @@ module FatFreeCRM::TasksHelper
   #----------------------------------------------------------------------------
   def hide_task_and_possibly_bucket(task, bucket)
     text = "$('##{h dom_id(task)}').remove();\n"
-    text << "$('#list_#{h bucket.to_s}').fadeOut({ duration:500 });\n" if Task.bucket_empty?(bucket, current_user, @view)
+    text << "$('#list_#{h bucket.to_s}').fadeOut({ duration:500 });\n" if FatFreeCRM::Task.bucket_empty?(bucket, current_user, @view)
     text.html_safe
   end
 
   #----------------------------------------------------------------------------
   def replace_content(task, bucket = nil)
     partial = (task.assigned_to && task.assigned_to != current_user.id) ? "assigned" : "pending"
-    html = render(partial: "tasks/#{partial}", collection: [task], locals: { bucket: bucket })
+    html = render(partial: "fat_free_crm/tasks/#{partial}", collection: [task], locals: { bucket: bucket })
     text = "$('##{dom_id(task)}').html('#{ j html }');\n".html_safe
   end
 

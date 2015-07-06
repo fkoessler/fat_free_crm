@@ -1,4 +1,4 @@
-%li.highlight[comment]
+%li.highlight{id: "#{comment.class.name.demodulize.underscore}_#{comment.id}", class: "#{comment.class.name.demodulize.underscore}"}
   = link_to avatar_for(comment.user, :size => :small), user_path(comment.user)
 
   .tools

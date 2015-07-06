@@ -31,7 +31,7 @@ class FatFreeCRM::UsersController < FatFreeCRM::ApplicationController
   #----------------------------------------------------------------------------
   def create
     if @user.save
-      if Setting.user_signup == :needs_approval
+      if FatFreeCRM::Setting.user_signup == :needs_approval
         flash[:notice] = t(:msg_account_created)
         redirect_to login_url
       else
@@ -74,7 +74,7 @@ class FatFreeCRM::UsersController < FatFreeCRM::ApplicationController
       render
     else
       if params[:avatar]
-        avatar = Avatar.create(avatar_params)
+        avatar = FatFreeCRM::Avatar.create(avatar_params)
         if avatar.valid?
           @user.avatar = avatar
         else
@@ -128,7 +128,7 @@ class FatFreeCRM::UsersController < FatFreeCRM::ApplicationController
   #----------------------------------------------------------------------------
   def opportunities_overview
     @users_with_opportunities = User.have_assigned_opportunities.order(:first_name)
-    @unassigned_opportunities = Opportunity.my.unassigned.pipeline.order(:stage)
+    @unassigned_opportunities = FatFreeCRM::Opportunity.my.unassigned.pipeline.order(:stage)
   end
 
   protected

@@ -131,7 +131,7 @@ class FatFreeCRM::Admin::UsersController < FatFreeCRM::Admin::ApplicationControl
     self.current_page  = options[:page] if options[:page]
     self.current_query = params[:query] if params[:query]
 
-    @search = klass.search(params[:q])
+    @search = User.search(params[:q])
     @search.build_grouping unless @search.groupings.any?
 
     wants = request.format

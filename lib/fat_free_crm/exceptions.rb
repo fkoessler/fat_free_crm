@@ -16,6 +16,6 @@ class ActionController::Base
 
   def render_fat_free_crm_exception(exception)
     logger.error exception.inspect
-    render layout: false, template: "/layouts/500", format: :html, status: 500, locals: { exception: exception }
+    render layout: false, template: "/layouts/fat_free_crm/500", format: :html, status: 500, locals: { exception: exception }
   end
 end
