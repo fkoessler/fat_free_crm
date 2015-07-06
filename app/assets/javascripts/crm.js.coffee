@@ -14,7 +14,7 @@
     searchRequest: null
     autocompleter: null
     base_url: ""
-    language: "en-US"
+    language: "fr-FR"
 
     #----------------------------------------------------------------------------
     find_form: (class_name) ->
@@ -217,7 +217,7 @@
 
       # Ex: "formatted_email_42" => [ "formatted", "email", "42" ]
       arr = body.attr('id').split("_")
-      $.get(@base_url + "/home/timeline", {
+      $.get(@base_url + "/crm/home/timeline", {
         type: arr[1]
         id: arr[2]
         state: state
@@ -252,7 +252,7 @@
       notes = $(notes_field).val()
       emails = $(emails_field).val()
       if notes isnt "" or emails isnt ""
-        $.post(@base_url + "/home/timeline"
+        $.post(@base_url + "/crm/home/timeline"
           {
             type: ""
             id: notes + "+" + emails
@@ -353,7 +353,7 @@
       $list.css opacity: 0.4
       @searchRequest.abort()  if @searchRequest and @searchRequest.readyState isnt -4
       @searchRequest = $.get(
-        @base_url + "/" + controller + ".js"
+        @base_url + "/crm/" + controller + ".js"
         query: query
         ->
           $("#loading").hide()
@@ -377,7 +377,7 @@
       $("#auto_complete_query").autocomplete(
         source: (request, response) =>
           request = {auto_complete_query: request['term'], related: related}
-          $.get @base_url + "/" + controller + "/auto_complete.json", request, (data) ->
+          $.get @base_url + "/crm/" + controller + "/auto_complete.json", request, (data) ->
             response $.map(data, (value, key) ->
               label: value
               value: key
@@ -389,14 +389,14 @@
           event.preventDefault()
           if ui.item
             if related
-              $.ajax(@base_url + "/" + related + "/attach", type: 'PUT', data: {
+              $.ajax(@base_url + "/crm/" + related + "/attach", type: 'PUT', data: {
                   assets: controller
                   asset_id: ui.item.value
                 }
               ).then ->
                 $("#auto_complete_query").val ""
             else
-              window.location.href = @base_url + "/" + controller + "/" + ui.item.value
+              window.location.href = @base_url + "/crm/" + controller + "/" + ui.item.value
 
         focus: (event, ui) =>
           event.preventDefault()

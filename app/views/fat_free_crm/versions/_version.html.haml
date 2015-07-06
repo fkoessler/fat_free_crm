@@ -1,6 +1,6 @@
-%li.highlight[version]
+%li.highlight{id: "#{version.class.name.demodulize.underscore}_#{version.id}", class: "#{version.class.name.demodulize.underscore}"}
   .body
-    - item_type = version.item_type.underscore.humanize
+    - item_type = version.item_type.demodulize.underscore.humanize
     - if user = User.find_by_id(version.whodunnit)
       - user_name = user.name
     - else

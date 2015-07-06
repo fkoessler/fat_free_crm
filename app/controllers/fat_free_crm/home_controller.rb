@@ -98,7 +98,7 @@ class FatFreeCRM::HomeController < FatFreeCRM::ApplicationController
     options[:duration] ||= activity_duration
     options[:max]      ||= 500
 
-    (FatFreeCRM::Version.includes(user: [:avatar])).latest.visible_to(current_user)
+    (FatFreeCRM::Version.includes(user: [:avatar])).latest(options).visible_to(current_user)
   end
 
   #----------------------------------------------------------------------------
