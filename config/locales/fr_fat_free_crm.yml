@@ -565,14 +565,17 @@ fr:
   recent_activity: Activité récente
   recent_activity_options: Options des activités récentes
   subject_account: compte
+  subject_address: addresse de
   subject_campaign: campagne
+  subject_comment: commentaire sur
   subject_contact: contact
+  subject_email: email de
   subject_lead: piste
   subject_opportunity: opportunité
   subject_task: tâche
   subject_user: utilisateur
   tag_list: Tags
-  created_past_participle: Création d'enregistrements
+  create_past_participle: Création d'enregistrements
   view_past_participle: Consultations
   update_past_participle: Modifications
   destroy_past_participle: Supressions
