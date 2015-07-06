@@ -575,7 +575,7 @@ fr:
   subject_task: tâche
   subject_user: utilisateur
   tag_list: Tags
-  create_past_participle: Création d'enregistrements
+  create_past_participle: Créations
   view_past_participle: Consultations
   update_past_participle: Modifications
   destroy_past_participle: Supressions
