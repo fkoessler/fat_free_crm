@@ -1,9 +1,9 @@
 class CreateIndexRelatedType < ActiveRecord::Migration
   def up
-    add_index :versions, [:related_id, :related_type]
+    add_index :fat_free_crm_versions, [:related_id, :related_type]
   end
 
   def down
-    remove_index :versions, [:related_id, :related_type]
+    remove_index :fat_free_crm_versions, [:related_id, :related_type]
   end
 end

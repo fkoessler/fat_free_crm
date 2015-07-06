@@ -1,4 +1,4 @@
-%li.highlight[pending]
+%li.highlight{id: "#{pending.class.name.demodulize.underscore}_#{pending.id}", class: "#{pending.class.name.demodulize.underscore}"}
   - unless pending.category.blank?
     .strip{:class => pending.category}= t(pending.category)
   - else

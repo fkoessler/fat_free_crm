@@ -12,7 +12,7 @@ class FatFreeCRM::ContactsController < FatFreeCRM::EntitiesController
     @contacts = get_contacts(page: params[:page], per_page: params[:per_page])
 
     respond_with @contacts do |format|
-      format.xls { render layout: 'header' }
+      format.xls { render layout: 'fat_free_crm/header' }
       format.csv { render csv: @contacts }
     end
   end
@@ -21,8 +21,8 @@ class FatFreeCRM::ContactsController < FatFreeCRM::EntitiesController
   # AJAX /contacts/1
   #----------------------------------------------------------------------------
   def show
-    @stage = Setting.unroll(:opportunity_stage)
-    @comment = Comment.new
+    @stage = FatFreeCRM::Setting.unroll(:opportunity_stage)
+    @comment = FatFreeCRM::Comment.new
     @timeline = timeline(@contact)
     respond_with(@contact)
   end
@@ -30,13 +30,14 @@ class FatFreeCRM::ContactsController < FatFreeCRM::EntitiesController
   # GET /contacts/new
   #----------------------------------------------------------------------------
   def new
-    @contact.attributes = { user: current_user, access: Setting.default_access, assigned_to: nil }
-    @account = Account.new(user: current_user)
+    @contact.attributes = { user: current_user, access: FatFreeCRM::Setting.default_access, assigned_to: nil }
+    @account = FatFreeCRM::Account.new(user: current_user)
 
     if params[:related]
       model, id = params[:related].split('_')
+      model = 'fat_free_crm/' + model unless Object.const_defined?(model.classify)
       if related = model.classify.constantize.my.find_by_id(id)
-        instance_variable_set("@#{model}", related)
+        instance_variable_set("@#{model.sub!('fat_free_crm/', '')}", related)
       else
         respond_to_related_not_found(model) && return
       end
@@ -48,9 +49,9 @@ class FatFreeCRM::ContactsController < FatFreeCRM::EntitiesController
   # GET /contacts/1/edit                                                   AJAX
   #----------------------------------------------------------------------------
   def edit
-    @account = @contact.account || Account.new(user: current_user)
+    @account = @contact.account || FatFreeCRM::Account.new(user: current_user)
     if params[:previous].to_s =~ /(\d+)\z/
-      @previous = Contact.my.find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i
+      @previous = FatFreeCRM::Contact.my.find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i
     end
 
     respond_with(@contact)
@@ -66,15 +67,15 @@ class FatFreeCRM::ContactsController < FatFreeCRM::EntitiesController
         @contacts = get_contacts if called_from_index_page?
       else
         unless params[:account][:id].blank?
-          @account = Account.find(params[:account][:id])
+          @account = FatFreeCRM::Account.find(params[:account][:id])
         else
           if request.referer =~ /\/accounts\/(\d+)\z/
-            @account = Account.find(Regexp.last_match[1]) # related account
+            @account = FatFreeCRM::Account.find(Regexp.last_match[1]) # related account
           else
-            @account = Account.new(user: current_user)
+            @account = FatFreeCRM::Account.new(user: current_user)
           end
         end
-        @opportunity = Opportunity.my.find(params[:opportunity]) unless params[:opportunity].blank?
+        @opportunity = FatFreeCRM::Opportunity.my.find(params[:opportunity]) unless params[:opportunity].blank?
       end
     end
   end
@@ -87,7 +88,7 @@ class FatFreeCRM::ContactsController < FatFreeCRM::EntitiesController
         if @contact.account
           @account = @contact.account
         else
-          @account = Account.new(user: current_user)
+          @account = FatFreeCRM::Account.new(user: current_user)
         end
       end
     end
@@ -123,9 +124,9 @@ class FatFreeCRM::ContactsController < FatFreeCRM::EntitiesController
 
     # Sorting and naming only: set the same option for Leads if the hasn't been set yet.
     if params[:sort_by]
-      current_user.pref[:contacts_sort_by] = Contact.sort_by_map[params[:sort_by]]
-      if Lead.sort_by_fields.include?(params[:sort_by])
-        current_user.pref[:leads_sort_by] ||= Lead.sort_by_map[params[:sort_by]]
+      current_user.pref[:contacts_sort_by] = FatFreeCRM::Contact.sort_by_map[params[:sort_by]]
+      if FatFreeCRM::Lead.sort_by_fields.include?(params[:sort_by])
+        current_user.pref[:leads_sort_by] ||= FatFreeCRM::Lead.sort_by_map[params[:sort_by]]
       end
     end
     if params[:naming]
@@ -148,12 +149,12 @@ class FatFreeCRM::ContactsController < FatFreeCRM::EntitiesController
 
   #----------------------------------------------------------------------------
   def get_accounts
-    @accounts = Account.my.order('name')
+    @accounts = FatFreeCRM::Account.my.order('name')
   end
 
   def set_options
     super
-    @naming = (current_user.pref[:contacts_naming]   || Contact.first_name_position) unless params[:cancel].true?
+    @naming = (current_user.pref[:contacts_naming]   || FatFreeCRM::Contact.first_name_position) unless params[:cancel].true?
   end
 
   #----------------------------------------------------------------------------

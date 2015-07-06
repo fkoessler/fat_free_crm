@@ -13,7 +13,7 @@ class FatFreeCRM::LeadsController < FatFreeCRM::EntitiesController
     @leads = get_leads(page: params[:page])
 
     respond_with @leads do |format|
-      format.xls { render layout: 'header' }
+      format.xls { render layout: 'fat_free_crm/header' }
       format.csv { render csv: @leads }
     end
   end
@@ -22,7 +22,7 @@ class FatFreeCRM::LeadsController < FatFreeCRM::EntitiesController
   # AJAX /leads/1
   #----------------------------------------------------------------------------
   def show
-    @comment = Comment.new
+    @comment = FatFreeCRM::Comment.new
     @timeline = timeline(@lead)
     respond_with(@lead)
   end
@@ -30,13 +30,14 @@ class FatFreeCRM::LeadsController < FatFreeCRM::EntitiesController
   # GET /leads/new
   #----------------------------------------------------------------------------
   def new
-    @lead.attributes = { user: current_user, access: Setting.default_access, assigned_to: nil }
+    @lead.attributes = { user: current_user, access: FatFreeCRM::Setting.default_access, assigned_to: nil }
     get_campaigns
 
     if params[:related]
       model, id = params[:related].split('_')
+      model = 'fat_free_crm/' + model unless Object.const_defined?(model.classify)
       if related = model.classify.constantize.my.find_by_id(id)
-        instance_variable_set("@#{model}", related)
+        instance_variable_set("@#{model.classify.demodulize.underscore}", related)
       else
         respond_to_related_not_found(model) && return
       end
@@ -51,7 +52,7 @@ class FatFreeCRM::LeadsController < FatFreeCRM::EntitiesController
     get_campaigns
 
     if params[:previous].to_s =~ /(\d+)\z/
-      @previous = Lead.my.find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i
+      @previous = FatFreeCRM::Lead.my.find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i
     end
 
     respond_with(@lead)
@@ -85,7 +86,7 @@ class FatFreeCRM::LeadsController < FatFreeCRM::EntitiesController
       if @lead.update_with_lead_counters(resource_params)
         update_sidebar
       else
-        @campaigns = Campaign.my.order('name')
+        @campaigns = FatFreeCRM::Campaign.my.order('name')
       end
     end
   end
@@ -104,12 +105,12 @@ class FatFreeCRM::LeadsController < FatFreeCRM::EntitiesController
   # GET /leads/1/convert
   #----------------------------------------------------------------------------
   def convert
-    @account = Account.new(user: current_user, name: @lead.company, access: "Lead")
-    @accounts = Account.my.order('name')
-    @opportunity = Opportunity.new(user: current_user, access: "Lead", stage: "prospecting", campaign: @lead.campaign, source: @lead.source)
+    @account = FatFreeCRM::Account.new(user: current_user, name: @lead.company, access: "Lead")
+    @accounts = FatFreeCRM::Account.my.order('name')
+    @opportunity = FatFreeCRM::Opportunity.new(user: current_user, access: "Lead", stage: "prospecting", campaign: @lead.campaign, source: @lead.source)
 
     if params[:previous].to_s =~ /(\d+)\z/
-      @previous = Lead.my.find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i
+      @previous = FatFreeCRM::Lead.my.find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i
     end
 
     respond_with(@lead)
@@ -119,8 +120,8 @@ class FatFreeCRM::LeadsController < FatFreeCRM::EntitiesController
   #----------------------------------------------------------------------------
   def promote
     @account, @opportunity, @contact = @lead.promote(params.permit!)
-    @accounts = Account.my.order('name')
-    @stage = Setting.unroll(:opportunity_stage)
+    @accounts = FatFreeCRM::Account.my.order('name')
+    @stage = FatFreeCRM::Setting.unroll(:opportunity_stage)
 
     respond_with(@lead) do |format|
       if @account.errors.empty? && @opportunity.errors.empty? && @contact.errors.empty?
@@ -163,9 +164,9 @@ class FatFreeCRM::LeadsController < FatFreeCRM::EntitiesController
 
     # Sorting and naming only: set the same option for Contacts if the hasn't been set yet.
     if params[:sort_by]
-      current_user.pref[:leads_sort_by] = Lead.sort_by_map[params[:sort_by]]
-      if Contact.sort_by_fields.include?(params[:sort_by])
-        current_user.pref[:contacts_sort_by] ||= Contact.sort_by_map[params[:sort_by]]
+      current_user.pref[:leads_sort_by] = FatFreeCRM::Lead.sort_by_map[params[:sort_by]]
+      if FatFreeCRM::Contact.sort_by_fields.include?(params[:sort_by])
+        current_user.pref[:contacts_sort_by] ||= FatFreeCRM::Contact.sort_by_map[params[:sort_by]]
       end
     end
     if params[:naming]
@@ -199,12 +200,12 @@ class FatFreeCRM::LeadsController < FatFreeCRM::EntitiesController
 
   #----------------------------------------------------------------------------
   def get_campaigns
-    @campaigns = Campaign.my.order('name')
+    @campaigns = FatFreeCRM::Campaign.my.order('name')
   end
 
   def set_options
     super
-    @naming = (current_user.pref[:leads_naming] || Lead.first_name_position) unless params[:cancel].true?
+    @naming = (current_user.pref[:leads_naming] || FatFreeCRM::Lead.first_name_position) unless params[:cancel].true?
   end
 
   #----------------------------------------------------------------------------
@@ -234,11 +235,11 @@ class FatFreeCRM::LeadsController < FatFreeCRM::EntitiesController
       instance_variable_set("@#{related}", @lead.send(related)) if called_from_landing_page?(related.to_s.pluralize)
     else
       @lead_status_total = HashWithIndifferentAccess[
-                           all: Lead.my.count,
+                           all: FatFreeCRM::Lead.my.count,
                            other: 0
       ]
-      Setting.lead_status.each do |key|
-        @lead_status_total[key] = Lead.my.where(status: key.to_s).count
+      FatFreeCRM::Setting.lead_status.each do |key|
+        @lead_status_total[key] = FatFreeCRM::Lead.my.where(status: key.to_s).count
         @lead_status_total[:other] -= @lead_status_total[key]
       end
       @lead_status_total[:other] += @lead_status_total[:all]

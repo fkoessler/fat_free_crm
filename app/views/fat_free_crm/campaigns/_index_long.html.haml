@@ -1,4 +1,4 @@
-%li.highlight[campaign]
+%li.highlight{id: "#{campaign.class.name.demodulize.underscore}_#{campaign.id}", class: "#{campaign.class.name.demodulize.underscore}"}
   .strip{:class => campaign.status}= t(campaign.status)
 
   %ul.tools

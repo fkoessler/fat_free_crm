@@ -20,6 +20,7 @@ atom_feed do |feed|
   assets.each do |asset|
     feed.entry(asset) do |entry|
       entry.title   !asset.is_a?(User) ? asset.name : "#{asset.full_name} (#{asset.username})"
+
       entry.summary send(:"#{item}_summary", asset) if respond_to?(:"#{item}_summary")
 
       entry.author do |author|

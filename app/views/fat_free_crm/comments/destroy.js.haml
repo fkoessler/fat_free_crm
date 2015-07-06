@@ -1,4 +1,4 @@
-- class_name = @comment.commentable.class.name.downcase
+- class_name = @comment.commentable.class.name.demodulize.downcase
 - id_prefix = "#{class_name}_#{@comment.commentable.id}"
 
 $('##{id_prefix}_shown_notes').val('#{ j @comment.commentable.comment_ids.join(',') }');

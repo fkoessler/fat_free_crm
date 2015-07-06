@@ -1,4 +1,4 @@
-%li.highlight[assigned]
+%li.highlight{id: "#{assigned.class.name.demodulize.underscore}_#{assigned.id}", class: "#{assigned.class.name.demodulize.underscore}"}
   - unless assigned.category.blank?
     .strip{:class => assigned.category}= t(assigned.category)
   - else

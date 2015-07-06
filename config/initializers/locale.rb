@@ -9,4 +9,4 @@
 #------------------------------------------------------------------------------
 
 # Turn off until https://github.com/rails/rails/issues/13164 is fixed
-I18n.default_locale = Setting.locale
+I18n.default_locale = FatFreeCRM::Setting.locale

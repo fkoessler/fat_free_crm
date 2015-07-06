@@ -7,11 +7,6 @@
 # Load Fat Free CRM as a Rails Engine
 require 'fat_free_crm/engine'
 
-module FatFreeCRM
-  class << self
-  end
-end
-
 require 'fat_free_crm/load_settings' # register load hook for Setting
 
 # Require gem dependencies, monkey patches, and vendored plugins (in lib)
@@ -37,3 +32,6 @@ require "fat_free_crm/view_factory"
 
 require "country_select"
 require "gravatar_image_tag"
+
+module FatFreeCRM
+end

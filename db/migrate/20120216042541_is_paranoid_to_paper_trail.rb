@@ -1,6 +1,6 @@
 class IsParanoidToPaperTrail < ActiveRecord::Migration
   def up
-    [Account, Campaign, Contact, Lead, Opportunity, Task].each do |klass|
+    [FatFreeCRM::Account, FatFreeCRM::Campaign, FatFreeCRM::Contact, FatFreeCRM::Lead, FatFreeCRM::Opportunity, FatFreeCRM::Task].each do |klass|
       klass.where('deleted_at IS NOT NULL').each(&:destroy)
     end
   end

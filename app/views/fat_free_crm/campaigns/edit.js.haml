@@ -1,6 +1,7 @@
-- entity_name = controller.controller_name.singularize.underscore #account
+- entity_name = controller.controller_name.singularize.underscore #campaign
 - @entity = instance_variable_get("@#{entity_name}")
 - id = dom_id(@entity)
+-#- id = "#{entity_name}_#{@entity.id}"
 
 - if params[:cancel].true? # <--------------------- Hide [Edit]
 

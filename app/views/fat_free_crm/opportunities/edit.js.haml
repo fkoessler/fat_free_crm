@@ -1,4 +1,4 @@
-- entity_name = controller.controller_name.singularize.underscore #account
+- entity_name = controller.controller_name.singularize.underscore #opportunity
 - @entity = instance_variable_get("@#{entity_name}")
 - id = dom_id(@entity)
 
@@ -14,7 +14,7 @@
 
   - if params[:cancel].blank?                       # Called from opportunities list item...
     - if @previous                                  # Hide open [Edit Opportunity] form if any.
-      - if @previous.is_a?(Opportunity)
+      - if @previous.is_a?(FatFreeCRM::Opportunity)
         $('##{dom_id(@previous)}').replaceWith('#{ j render(:partial => entity_name, :collection => [ @previous ]) }');
       - else
         crm.flick('#{entity_name}_#{@previous}', 'remove');

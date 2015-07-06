@@ -1,15 +1,15 @@
 class AddSubscribedUsersToEntities < ActiveRecord::Migration
   def change
-    %w(accounts campaigns contacts leads opportunities tasks).each do |table|
-      add_column table.to_sym, :subscribed_users, :text
+    %w(FatFreeCRM::Account FatFreeCRM::Campaign FatFreeCRM::Contact FatFreeCRM::Lead FatFreeCRM::Opportunity FatFreeCRM::Task).each do |klass|
+      add_column klass.constantize.table_name.to_sym, :subscribed_users, :text
       # Reset the column information of each model
-      table.singularize.capitalize.constantize.reset_column_information
+      klass.constantize.reset_column_information
     end
 
     entity_subscribers = Hash.new(Set.new)
 
     # Add comment's user to the entity's Set
-    Comment.all.each do |comment|
+    FatFreeCRM::Comment.all.each do |comment|
       entity_subscribers[[comment.commentable_type, comment.commentable_id]] += [comment.user_id]
     end
 

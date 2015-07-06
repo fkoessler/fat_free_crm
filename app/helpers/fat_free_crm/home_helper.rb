@@ -5,21 +5,21 @@
 #------------------------------------------------------------------------------
 module FatFreeCRM::HomeHelper
   def sort_by_assets
-    Version::ASSETS.map do |asset|
+    FatFreeCRM::Version::ASSETS.map do |asset|
       %[{ name: "#{t(asset.singularize)}", on_select: function() { #{redraw(:asset, [asset, t(asset.singularize).downcase], url_for(action: :redraw))} } }]
     end
   end
 
   #----------------------------------------------------------------------------
   def sort_by_events
-    Version::EVENTS.map do |event|
+    FatFreeCRM::Version::EVENTS.map do |event|
       %[{ name: "#{t(event + '_past_participle')}", on_select: function() { #{redraw(:event, [event, t(event + '_past_participle').downcase], url_for(action: :redraw))} } }]
     end
   end
 
   #----------------------------------------------------------------------------
   def sort_by_duration
-    Version::DURATION.map do |duration|
+    FatFreeCRM::Version::DURATION.map do |duration|
       %[{ name: "#{t(duration)}", on_select: function() { #{redraw(:duration, [duration, t(duration).downcase], url_for(action: :redraw))} } }]
     end
   end

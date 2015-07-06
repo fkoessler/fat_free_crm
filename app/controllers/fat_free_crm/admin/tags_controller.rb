@@ -6,13 +6,21 @@
 class FatFreeCRM::Admin::TagsController < FatFreeCRM::Admin::ApplicationController
   before_action "set_current_tab('admin/tags')", only: [:index, :show]
 
-  load_resource
+  load_resource :tag, class: 'FatFreeCRM::Tag'
 
   # GET /admin/tags
   # GET /admin/tags.xml                                                   HTML
   #----------------------------------------------------------------------------
   def index
-    @tags = Tag.all
+    Rails.logger.debug 'BEFORE GET TAGSSS'
+    Rails.logger.debug 'BEFORE GET TAGSSS'
+    Rails.logger.debug 'BEFORE GET TAGSSS'
+    Rails.logger.debug 'BEFORE GET TAGSSS'
+    @tags = FatFreeCRM::Tag.all
+    Rails.logger.debug 'BEFORE RESPOND_WITHHHHH'
+    Rails.logger.debug 'BEFORE RESPOND_WITHHHHH'
+    Rails.logger.debug 'BEFORE RESPOND_WITHHHHH'
+    Rails.logger.debug 'BEFORE RESPOND_WITHHHHH'
     respond_with(@tags)
   end
 
@@ -27,7 +35,7 @@ class FatFreeCRM::Admin::TagsController < FatFreeCRM::Admin::ApplicationControll
   #----------------------------------------------------------------------------
   def edit
     if params[:previous].to_s =~ /(\d+)\z/
-      @previous = Tag.find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i
+      @previous = FatFreeCRM::Tag.find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i
     end
   end
 

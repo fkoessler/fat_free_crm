@@ -227,7 +227,7 @@ describe ContactsController do
 
       it "should have the same count of tags" do
         xhr :get, :field_group, tag:  @tag.name
-        expect(Tag.count).to equal(1)
+        expect(FatFreeCRM::Tag.count).to equal(1)
       end
     end
 
@@ -241,7 +241,7 @@ describe ContactsController do
       it "should have the same count of tags" do
         tag_name = "New-Tag-1"
         xhr :get, :field_group, tag: tag_name
-        expect(Tag.count).to equal(0)
+        expect(FatFreeCRM::Tag.count).to equal(0)
       end
     end
   end

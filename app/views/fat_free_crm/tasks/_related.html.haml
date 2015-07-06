@@ -1,4 +1,4 @@
-%li.highlight[related]
+%li.highlight{id: "#{related.class.name.demodulize.underscore}_#{related.id}", class: "#{related.class.name.demodulize.underscore}"}
   - unless related.category.blank?
     .strip{:class => related.category}= t(related.category)
   - else

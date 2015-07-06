@@ -35,8 +35,8 @@ module FatFreeCRM::OpportunitiesHelper
   #----------------------------------------------------------------------------
   def opportunity_campaign_select(options = {})
     options[:selected] ||= @opportunity.campaign_id || 0
-    selected_campaign = Campaign.find_by_id(options[:selected])
-    campaigns = ([selected_campaign] + Campaign.my.order(:name).limit(25)).compact.uniq
+    selected_campaign = FatFreeCRM::Campaign.find_by_id(options[:selected])
+    campaigns = ([selected_campaign] + FatFreeCRM::Campaign.my.order(:name).limit(25)).compact.uniq
     collection_select :opportunity, :campaign_id, campaigns, :id, :name, options,
                       :"data-placeholder" => t(:select_a_campaign),
                       :"data-url" => auto_complete_campaigns_path(format: 'json'),

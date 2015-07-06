@@ -1,9 +1,9 @@
 class ChangeFieldsCollectionToText < ActiveRecord::Migration
   def self.up
-    change_column :fields, :collection, :text
+    change_column :fat_free_crm_fields, :collection, :text
   end
 
   def self.down
-    change_column :fields, :collection, :string
+    change_column :fat_free_crm_fields, :collection, :string
   end
 end

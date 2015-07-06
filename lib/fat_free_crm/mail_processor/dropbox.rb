@@ -16,8 +16,8 @@ module FatFreeCRM
         # when Dropbox is initialized. This needs to be done so that Rake tasks such as
         # 'assets:precompile' can run on Heroku without depending on a database.
         # See: http://devcenter.heroku.com/articles/rails31_heroku_cedar#troubleshooting
-        @@assets = [Account, Contact, Lead].freeze
-        @settings = Setting.email_dropbox.dup
+        @@assets = [FatFreeCRM::Account, FatFreeCRM::Contact, FatFreeCRM::Lead].freeze
+        @settings = FatFreeCRM::Setting.email_dropbox.dup
         super
       end
 
@@ -144,7 +144,7 @@ module FatFreeCRM
 
       #----------------------------------------------------------------------------------------
       def create_and_attach(email, recipient)
-        contact = Contact.create!(default_values_for_contact(email, recipient))
+        contact = FatFreeCRM::Contact.create!(default_values_for_contact(email, recipient))
         attach(email, contact)
       end
 
@@ -174,7 +174,7 @@ module FatFreeCRM
         )
         asset.touch
 
-        if asset.is_a?(Lead) && asset.status == "new"
+        if asset.is_a?(FatFreeCRM::Lead) && asset.status == "new"
           asset.update_attribute(:status, "contacted")
         end
 
@@ -208,7 +208,7 @@ module FatFreeCRM
         case keyword
         when "Account", "Campaign", "Opportunity"
           defaults[:status] = "planned" if keyword == "Campaign"      # TODO: I18n
-          defaults[:stage] = Opportunity.default_stage if keyword == "Opportunity" # TODO: I18n
+          defaults[:stage] = FatFreeCRM::Opportunity.default_stage if keyword == "Opportunity" # TODO: I18n
 
         when "Contact", "Lead"
           first_name, *last_name = data.delete("Name").split(' ')
@@ -238,13 +238,13 @@ module FatFreeCRM
         }
 
         # Search for domain name in Accounts.
-        account = Account.where('(lower(email) like ? OR lower(website) like ?)', "%#{recipient_domain.downcase}", "%#{recipient_domain.downcase}%").first
+        account = FatFreeCRM::Account.where('(lower(email) like ? OR lower(website) like ?)', "%#{recipient_domain.downcase}", "%#{recipient_domain.downcase}%").first
         if account
           log "asociating new contact #{recipient} with the account #{account.name}"
           defaults[:account] = account
         else
           log "creating new account #{recipient_domain.capitalize} for the contact #{recipient}"
-          defaults[:account] = Account.create!(
+          defaults[:account] = FatFreeCRM::Account.create!(
             user:   @sender,
             email:  recipient,
             name:   recipient_domain.capitalize,
@@ -258,7 +258,7 @@ module FatFreeCRM
       # to choose anyone to share it with here.
       #--------------------------------------------------------------------------------------
       def default_access
-        Setting.default_access == "Shared" ? 'Private' : Setting.default_access
+        FatFreeCRM::Setting.default_access == "Shared" ? 'Private' : FatFreeCRM::Setting.default_access
       end
 
       # Notify users with the results of the operations

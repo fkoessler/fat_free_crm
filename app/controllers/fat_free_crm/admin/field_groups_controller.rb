@@ -10,7 +10,7 @@ class FatFreeCRM::Admin::FieldGroupsController < FatFreeCRM::Admin::ApplicationC
   # GET /admin/field_groups/new.xml                                        AJAX
   #----------------------------------------------------------------------------
   def new
-    @field_group = FieldGroup.new(klass_name: params[:klass_name])
+    @field_group = FatFreeCRM::FieldGroup.new(klass_name: params[:klass_name])
 
     respond_with(@field_group)
   end
@@ -18,10 +18,10 @@ class FatFreeCRM::Admin::FieldGroupsController < FatFreeCRM::Admin::ApplicationC
   # GET /admin/field_groups/1/edit                                         AJAX
   #----------------------------------------------------------------------------
   def edit
-    @field_group = FieldGroup.find(params[:id])
+    @field_group = FatFreeCRM::FieldGroup.find(params[:id])
 
     if params[:previous].to_s =~ /(\d+)\z/
-      @previous = FieldGroup.find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i
+      @previous = FatFreeCRM::FieldGroup.find_by_id(Regexp.last_match[1]) || Regexp.last_match[1].to_i
     end
 
     respond_with(@field_group)
@@ -31,7 +31,7 @@ class FatFreeCRM::Admin::FieldGroupsController < FatFreeCRM::Admin::ApplicationC
   # POST /admin/field_groups.xml                                           AJAX
   #----------------------------------------------------------------------------
   def create
-    @field_group = FieldGroup.create(field_group_params)
+    @field_group = FatFreeCRM::FieldGroup.create(field_group_params)
 
     respond_with(@field_group)
   end
@@ -40,7 +40,7 @@ class FatFreeCRM::Admin::FieldGroupsController < FatFreeCRM::Admin::ApplicationC
   # PUT /admin/field_groups/1.xml                                          AJAX
   #----------------------------------------------------------------------------
   def update
-    @field_group = FieldGroup.find(params[:id])
+    @field_group = FatFreeCRM::FieldGroup.find(params[:id])
     @field_group.update_attributes(field_group_params)
 
     respond_with(@field_group)
@@ -50,7 +50,7 @@ class FatFreeCRM::Admin::FieldGroupsController < FatFreeCRM::Admin::ApplicationC
   # DELETE /admin/field_groups/1.xml                                       AJAX
   #----------------------------------------------------------------------------
   def destroy
-    @field_group = FieldGroup.find(params[:id])
+    @field_group = FatFreeCRM::FieldGroup.find(params[:id])
     @field_group.destroy
 
     respond_with(@field_group)
@@ -63,7 +63,7 @@ class FatFreeCRM::Admin::FieldGroupsController < FatFreeCRM::Admin::ApplicationC
     field_group_ids = params["#{asset}_field_groups"]
 
     field_group_ids.each_with_index do |id, index|
-      FieldGroup.where(id: id).update_all(position: index + 1)
+      FatFreeCRM::FieldGroup.where(id: id).update_all(position: index + 1)
     end
 
     render nothing: true
@@ -72,7 +72,7 @@ class FatFreeCRM::Admin::FieldGroupsController < FatFreeCRM::Admin::ApplicationC
   # GET /admin/field_groups/1/confirm                                      AJAX
   #----------------------------------------------------------------------------
   def confirm
-    @field_group = FieldGroup.find(params[:id])
+    @field_group = FatFreeCRM::FieldGroup.find(params[:id])
   end
 
   protected

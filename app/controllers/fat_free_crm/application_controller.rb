@@ -17,26 +17,26 @@ class FatFreeCRM::ApplicationController < ActionController::Base
 
   #I had to include the helpers manually, but normally
   # helpers should be included automatically in Rails4..
-  helper AccountsHelper
-  helper AddressesHelper
-  helper AuthenticationsHelper
-  helper CampaignsHelper
-  helper ContactsHelper
-  helper EmailsHelper
-  helper FieldsHelper
-  helper GroupsHelper
-  helper HomeHelper
-  helper LeadsHelper
-  helper ListsHelper
-  helper OpportunitiesHelper
-  helper PasswordsHelper
-  helper RemoteLinkPaginationHelper
-  helper TagsHelper
-  helper TasksHelper
+  helper FatFreeCRM::AccountsHelper
+  helper FatFreeCRM::AddressesHelper
+  helper FatFreeCRM::AuthenticationsHelper
+  helper FatFreeCRM::CampaignsHelper
+  helper FatFreeCRM::ContactsHelper
+  helper FatFreeCRM::EmailsHelper
+  helper FatFreeCRM::FieldsHelper
+  helper FatFreeCRM::GroupsHelper
+  helper FatFreeCRM::HomeHelper
+  helper FatFreeCRM::LeadsHelper
+  helper FatFreeCRM::ListsHelper
+  helper FatFreeCRM::OpportunitiesHelper
+  helper FatFreeCRM::PasswordsHelper
+  helper FatFreeCRM::RemoteLinkPaginationHelper
+  helper FatFreeCRM::TagsHelper
+  helper FatFreeCRM::TasksHelper
   helper UsersHelper
-  helper VersionsHelper
-  helper JavascriptHelper
-  helper CommentsHelper
+  helper FatFreeCRM::VersionsHelper
+  helper FatFreeCRM::JavascriptHelper
+  helper FatFreeCRM::CommentsHelper
 
   respond_to :html, only: [:index, :show, :auto_complete]
   respond_to :js
@@ -102,12 +102,12 @@ class FatFreeCRM::ApplicationController < ActionController::Base
 
   #----------------------------------------------------------------------------
   def klass
-    @klass ||= controller_name.classify.constantize
+    @klass ||= controller_path.classify.constantize
   end
 
   #----------------------------------------------------------------------------
   def clear_setting_cache
-    Setting.clear_cache!
+    FatFreeCRM::Setting.clear_cache!
   end
 
   #----------------------------------------------------------------------------
@@ -115,8 +115,8 @@ class FatFreeCRM::ApplicationController < ActionController::Base
     Time.zone = ActiveSupport::TimeZone[session[:timezone_offset]] if session[:timezone_offset]
     if current_user.present? && (locale = current_user.preference[:locale]).present?
       I18n.locale = locale
-    elsif Setting.locale.present?
-      I18n.locale = Setting.locale
+    elsif FatFreeCRM::Setting.locale.present?
+      I18n.locale = FatFreeCRM::Setting.locale
     end
   end
 

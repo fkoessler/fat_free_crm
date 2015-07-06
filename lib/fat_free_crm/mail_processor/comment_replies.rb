@@ -21,7 +21,7 @@ module FatFreeCRM
 
       #--------------------------------------------------------------------------------------
       def initialize
-        @settings = Setting.email_comment_replies.dup
+        @settings = FatFreeCRM::Setting.email_comment_replies.dup
         super
       end
 
@@ -58,7 +58,7 @@ module FatFreeCRM
           # Create comment if sender has permissions for entity
           if sender_has_permissions_for?(entity)
             parsed_reply = EmailReplyParser.parse_reply(plain_text_body(email))
-            Comment.create user:        @sender,
+            FatFreeCRM::Comment.create user:        @sender,
                            commentable: entity,
                            comment:     parsed_reply
           end

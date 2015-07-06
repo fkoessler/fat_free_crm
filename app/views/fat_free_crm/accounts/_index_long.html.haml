@@ -1,5 +1,5 @@
 - amount = account.opportunities.pipeline.map(&:weighted_amount).sum
-%li.highlight[account]
+%li.highlight{id: "#{account.class.name.demodulize.underscore}_#{account.id}", class: "#{account.class.name.demodulize.underscore}"}
   - if account.category
     .strip{:class => account.category} #{t(account.category)}
   - else

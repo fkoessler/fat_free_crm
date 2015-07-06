@@ -58,9 +58,9 @@ module FatFreeCRM::LeadsHelper
   #----------------------------------------------------------------------------
   def lead_status_codes_for(lead)
     if lead.status != "converted" && (lead.new_record? || lead.contact.nil?)
-      Setting.unroll(:lead_status).delete_if { |status| status.last == :converted }
+      FatFreeCRM::Setting.unroll(:lead_status).delete_if { |status| status.last == :converted }
     else
-      Setting.unroll(:lead_status)
+      FatFreeCRM::Setting.unroll(:lead_status)
     end
   end
 

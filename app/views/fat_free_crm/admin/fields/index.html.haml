@@ -11,24 +11,24 @@
 .inline_tabs
   %ul
     - list_of_entities.each do |entity|
-      - asset = entity.downcase
-      %li{ "data-tab-class" => asset, :class => ("selected" if entity == 'Contact') }
-        = link_to t(entity), "#"
+      - asset = entity.demodulize.downcase
+      %li{ "data-tab-class" => asset, :class => ("selected" if entity == 'FatFreeCRM::Contact') }
+        = link_to t(entity.demodulize), "#"
 
 - list_of_entities.each do |entity|
-  - asset = entity.downcase
-  - klass = asset.classify.constantize
-  .fields{ :id => "#{asset}_section", :style => ("display: none;" if asset != 'contact') }
+  - asset = entity.demodulize.downcase
+  - klass = entity.classify.constantize
+  .fields{ :id => "#{asset}_section", :style => ("display: none;" if entity != 'FatFreeCRM::Contact') }
 
     - create_form_id = "#{asset}_create_field_group"
 
     .title_tools
-      = link_to_inline(create_form_id, new_admin_field_group_path(:klass_name => klass.name), :text => t(:create_field_group))
+      = link_to_inline(create_form_id, new_admin_field_group_path(:klass_name => klass.name.demodulize), :text => t(:create_field_group))
 
     .title
       = t(asset)
 
     .list{ :id => "#{asset}_field_groups", 'data-sortable' =>  sort_admin_field_groups_path(:asset => asset) }
-      = render :partial => "admin/field_groups/field_group", :collection => klass.field_groups, :locals => {:asset => asset, :klass => klass}
+      = render :partial => "fat_free_crm/admin/field_groups/field_group", :collection => klass.field_groups, :locals => {:asset => asset, :klass => klass}
 
     .remote{ hidden.merge(:id => create_form_id) }

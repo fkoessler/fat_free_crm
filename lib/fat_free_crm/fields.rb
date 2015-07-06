@@ -22,15 +22,17 @@ module FatFreeCRM
 
     module SingletonMethods
       def field_groups
-        if ActiveRecord::Base.connection.table_exists? 'field_groups'
-          FieldGroup.where(klass_name: name).order(:position)
+        if ActiveRecord::Base.connection.table_exists? 'fat_free_crm_field_groups'
+          FatFreeCRM::FieldGroup.where(klass_name: name).order(:position)
         else
           []
         end
       end
 
       def fields
+        #equivalent to: field_groups.map { |x| x.fields}
         field_groups.map(&:fields).flatten
+        # field_groups
       end
 
       def serialize_custom_fields!
