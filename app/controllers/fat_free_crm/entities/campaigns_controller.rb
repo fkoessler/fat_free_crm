@@ -41,7 +41,7 @@ class FatFreeCRM::CampaignsController < FatFreeCRM::EntitiesController
 
       format.xls do
         @leads = @campaign.leads
-        render '/leads/index', layout: 'header'
+        render '/leads/index', layout: 'fat_free_crm/header'
       end
 
       format.csv do
