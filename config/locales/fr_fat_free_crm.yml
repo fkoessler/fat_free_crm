@@ -61,8 +61,8 @@ fr:
   proposal: Proposition
   negotiation: Négotiation
   final_review: Examen final
-  won: Clôturée/Gagnée
-  lost: Clôturée/Perdue
+  won: Clôturée/gagnée
+  lost: Clôturée/perdue
   call: Appel
   email: Email
   follow_up: Suivi
