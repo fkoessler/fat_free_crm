@@ -15,13 +15,13 @@
 #  updated_at :datetime
 #
 
-class Permission < ActiveRecord::Base
+class FatFreeCRM::Permission < ActiveRecord::Base
   belongs_to :user
-  belongs_to :group
+  belongs_to :group, class_name: 'FatFreeCRM::Group'
   belongs_to :asset, polymorphic: true
 
   validates_presence_of :user_id, unless: :group_id?
   validates_presence_of :group_id, unless: :user_id?
 
-  ActiveSupport.run_load_hooks(:permission, self)
+  ActiveSupport.run_load_hooks(:fat_free_crm_permission, self)
 end

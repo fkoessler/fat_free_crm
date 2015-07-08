@@ -15,7 +15,7 @@
 #  updated_at :datetime
 #
 
-class Preference < ActiveRecord::Base
+class FatFreeCRM::Preference < ActiveRecord::Base
   belongs_to :user
 
   #-------------------------------------------------------------------
@@ -24,7 +24,7 @@ class Preference < ActiveRecord::Base
     return super(name) if name.to_s == "user_id" # get the value of belongs_to
 
     return cached_prefs[name.to_s] if cached_prefs.key?(name.to_s)
-    cached_prefs[name.to_s] = if user.present? && pref = Preference.find_by_name_and_user_id(name.to_s, user.id)
+    cached_prefs[name.to_s] = if user.present? && pref = FatFreeCRM::Preference.find_by_name_and_user_id(name.to_s, user.id)
                                 Marshal.load(Base64.decode64(pref.value))
     end
   end
@@ -34,10 +34,10 @@ class Preference < ActiveRecord::Base
     return super(name, value) if name.to_s == "user_id" # set the value of belongs_to
 
     encoded = Base64.encode64(Marshal.dump(value))
-    if pref = Preference.find_by(name: name.to_s, user_id: user.id)
+    if pref = FatFreeCRM::Preference.find_by(name: name.to_s, user_id: user.id)
       pref.update_attribute(:value, encoded)
     else
-      Preference.create(user: user, name: name.to_s, value: encoded)
+      FatFreeCRM::Preference.create(user: user, name: name.to_s, value: encoded)
     end
     cached_prefs[name.to_s] = value
   end
@@ -46,5 +46,5 @@ class Preference < ActiveRecord::Base
     @cached_prefs ||= {}
   end
 
-  ActiveSupport.run_load_hooks(:preference, self)
+  ActiveSupport.run_load_hooks(:fat_free_crm_preference, self)
 end

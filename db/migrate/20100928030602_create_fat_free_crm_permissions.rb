@@ -1,4 +1,4 @@
-class CreatePermissions < ActiveRecord::Migration
+class CreateFatFreeCRMPermissions < ActiveRecord::Migration
   def self.up
     create_table :permissions, force: true do |t|
       t.references :user                          # User who is allowed to access the asset.

@@ -711,7 +711,7 @@ fr:
     référencent encore ce groupe.
   approve: Approuver
   create_user: Créer un utilisateur
-  last_logged_in: last logged in %{value}
+  last_logged_in: Dernière connection le %{value}
   personal_information: Informations complémentaires
   reactivate: Réactiver
   save_user: Enregistrer l'utilisateur
@@ -800,8 +800,8 @@ fr:
       one: 1 jour
       other: ! '%{count} jours'
     login:
-      one: 1 identifiant
-      other: ! '%{count} identifiants'
+      one: 1 connection
+      other: ! '%{count} connections'
 
   # Custom date/time formats.
   #----------------------------------------------------------------------------
