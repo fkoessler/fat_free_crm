@@ -170,7 +170,7 @@ module FatFreeCRM
       def sender_has_permissions_for?(asset)
         return true if asset.access == "Public"
         return true if asset.user_id == @sender.id || asset.assigned_to == @sender.id
-        return true if asset.access == "Shared" && Permission.exists('user_id = ? AND asset_id = ? AND asset_type = ?', @sender.id, asset.id, asset.class.to_s)
+        return true if asset.access == "Shared" && FatFreeCRM::Permission.exists('user_id = ? AND asset_id = ? AND asset_type = ?', @sender.id, asset.id, asset.class.to_s)
 
         false
       end

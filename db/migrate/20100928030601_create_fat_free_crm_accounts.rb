@@ -7,7 +7,7 @@ class CreateFatFreeCRMAccounts < ActiveRecord::Migration
       t.string :name, limit: 64, null: false, default: ""
       t.string :access, limit: 8, default: "Public" # %w(Private Public Shared)
       t.string :website, limit: 64
-      t.string :tall_free_phone, limit: 32
+      t.string :toll_free_phone, limit: 32
       t.string :phone, limit: 32
       t.string :fax, limit: 32
       t.string :billing_address

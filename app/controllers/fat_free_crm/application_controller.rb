@@ -3,7 +3,7 @@
 # Fat Free CRM is freely distributable under the terms of MIT license.
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-class FatFreeCRM::ApplicationController < ApplicationController
+class FatFreeCRM::ApplicationController < ::ApplicationController
   protect_from_forgery
 
   before_action :set_context
@@ -11,7 +11,6 @@ class FatFreeCRM::ApplicationController < ApplicationController
   before_action "hook(:app_before_filter, self)"
   after_action "hook(:app_after_filter,  self)"
 
-  helper_method :current_user_session, :current_user, :can_signup?
   helper_method :called_from_index_page?, :called_from_landing_page?
   helper_method :klass
 
@@ -92,6 +91,7 @@ class FatFreeCRM::ApplicationController < ApplicationController
     return [] if related.blank?
     return [related.to_i].compact unless related.index('/')
     related_class, id = related.split('/')
+    related_class = 'fat_free_crm/' + related_class unless Object.const_defined?(related_class.classify)
     obj = related_class.classify.constantize.find_by_id(id)
     if obj && obj.respond_to?(controller_name)
       obj.send(controller_name).map(&:id)
@@ -123,28 +123,6 @@ class FatFreeCRM::ApplicationController < ApplicationController
   #----------------------------------------------------------------------------
   def set_current_tab(tab = controller_name)
     @current_tab = tab
-  end
-
-  #----------------------------------------------------------------------------
-  def current_user_session
-    @current_user_session ||= Authentication.find
-    if @current_user_session && @current_user_session.record.suspended?
-      @current_user_session = nil
-    end
-    @current_user_session
-  end
-
-  #----------------------------------------------------------------------------
-  def current_user
-    unless @current_user
-      @current_user = (current_user_session && current_user_session.record)
-      if @current_user
-        @current_user.set_individual_locale
-        @current_user.set_single_access_token
-      end
-      User.current_user = @current_user
-    end
-    @current_user
   end
 
   #----------------------------------------------------------------------------

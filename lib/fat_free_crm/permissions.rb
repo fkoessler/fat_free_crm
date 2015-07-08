@@ -18,7 +18,7 @@ module FatFreeCRM
           # to implement Recycle Bin/Restore and 2) to honor permissions when
           # displaying "object deleted..." in the activity log.
           #
-          has_many :permissions, as: :asset
+          has_many :permissions, as: :asset, class_name: 'FatFreeCRM::Permission'
 
           scope :my, lambda {
             accessible_by(User.current_ability)
@@ -41,7 +41,7 @@ module FatFreeCRM
               remove_permissions
             else
               value = value.flatten.reject(&:blank?).uniq.map(&:to_i)
-              permissions_to_remove = Permission.where(
+              permissions_to_remove = FatFreeCRM::Permission.where(
                 #{model}_id: self.#{model}_ids - value,
                 asset_id: self.id,
                 asset_type: self.class
@@ -69,7 +69,7 @@ module FatFreeCRM
       def remove_permissions
         # we don't use dependent => :destroy so must manually remove
         if id && self.class
-          permissions_to_remove = Permission.where(asset_id: id, asset_type: self.class.to_s).to_a
+          permissions_to_remove = FatFreeCRM::Permission.where(asset_id: id, asset_type: self.class.to_s).to_a
         else
           permissions_to_remove = []
         end

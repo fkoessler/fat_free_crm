@@ -359,7 +359,6 @@ module FatFreeCRM::ApplicationHelper
   # Helper to display links to supported data export formats.
   #----------------------------------------------------------------------------
   def links_to_export(action = :index)
-    token = current_user.single_access_token
     url_params = { action: action }
     url_params.merge!(id: params[:id]) unless params[:id].blank?
     url_params.merge!(query: params[:query]) unless params[:query].blank?
@@ -372,7 +371,7 @@ module FatFreeCRM::ApplicationHelper
     end
 
     feeds = %w(rss atom).map do |format|
-      link_to(format.upcase, url_params.merge(format: format, authentication_credentials: token), title: I18n.t(:"to_#{format}"))
+      link_to(format.upcase, url_params.merge(format: format), title: I18n.t(:"to_#{format}"))
     end
 
     links = %w(perm).map do |format|
@@ -387,7 +386,7 @@ module FatFreeCRM::ApplicationHelper
   end
 
   def group_options
-    Group.all.map { |g| [g.name, g.id] }
+    FatFreeCRM::Group.all.map { |g| [g.name, g.id] }
   end
 
   def list_of_entities

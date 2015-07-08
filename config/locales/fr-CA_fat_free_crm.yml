@@ -558,8 +558,8 @@ fr-CA:
       one: 1 jour
       other: ! '%{count} jours'
     login:
-      one: 1 identifiant
-      other: ! '%{count} identifiants'
+      one: 1 connection
+      other: ! '%{count} connections'
   date:
     formats:
       mmddyyyy: ! '%d/%m/%Y'

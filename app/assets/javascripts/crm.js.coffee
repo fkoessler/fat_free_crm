@@ -14,7 +14,7 @@
     searchRequest: null
     autocompleter: null
     base_url: ""
-    language: "fr-FR"
+    language: "en-US"
 
     #----------------------------------------------------------------------------
     find_form: (class_name) ->

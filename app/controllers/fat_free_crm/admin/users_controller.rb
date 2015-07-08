@@ -45,8 +45,12 @@ class FatFreeCRM::Admin::UsersController < FatFreeCRM::Admin::ApplicationControl
   #----------------------------------------------------------------------------
   def create
     params[:user][:password_confirmation] = nil if params[:user][:password_confirmation].blank?
+    if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
     @user = User.new(user_params)
-    @user.save_without_session_maintenance
+    @user.save
 
     respond_with(@user)
   end
@@ -56,9 +60,13 @@ class FatFreeCRM::Admin::UsersController < FatFreeCRM::Admin::ApplicationControl
   #----------------------------------------------------------------------------
   def update
     params[:user][:password_confirmation] = nil if params[:user][:password_confirmation].blank?
+    if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
     @user = User.find(params[:id])
     @user.attributes = user_params
-    @user.save_without_session_maintenance
+    @user.save
 
     respond_with(@user)
   end

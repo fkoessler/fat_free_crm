@@ -424,11 +424,11 @@ ActiveRecord::Schema.define(version: 20150623125956) do
     t.string   "password_salt",                   default: "",    null: false
     t.string   "persistence_token",               default: "",    null: false
     t.string   "perishable_token",                default: "",    null: false
-    t.datetime "last_login_at"
-    t.datetime "current_login_at"
-    t.string   "last_login_ip"
-    t.string   "current_login_ip"
-    t.integer  "login_count",                     default: 0,     null: false
+    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at"
+    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip"
+    t.integer  "sign_in_count",                     default: 0,     null: false
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"

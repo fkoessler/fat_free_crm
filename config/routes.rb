@@ -3,7 +3,6 @@
 # Fat Free CRM is freely distributable under the terms of MIT license.
 # See MIT-LICENSE file or http://www.opensource.org/licenses/mit-license.php
 #------------------------------------------------------------------------------
-# Rails.application.routes.draw do
 FatFreeCRM::Engine.routes.draw do
 
   resources :lists
@@ -12,10 +11,7 @@ FatFreeCRM::Engine.routes.draw do
 
   get 'activities' => 'home#index'
   get 'admin'      => 'admin/users#index',       :as => :admin
-  get 'login'      => 'authentications#new',     :as => :login
-  delete 'logout'  => 'authentications#destroy', :as => :logout
   get 'profile'    => 'users#show',              :as => :profile
-  get 'signup'     => 'users#new',               :as => :signup
 
   get '/home/options',  as: :options
   get '/home/toggle',   as: :toggle
@@ -23,7 +19,6 @@ FatFreeCRM::Engine.routes.draw do
   match '/home/timezone', as: :timezone, via: [:get, :put, :post]
   post '/home/redraw',   as: :redraw
 
-  resource :authentication, except: [:index, :edit]
   resources :comments,       except: [:new, :show]
   resources :emails,         only: [:destroy]
   resources :passwords,      only: [:new, :create, :edit, :update]

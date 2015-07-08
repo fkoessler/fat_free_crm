@@ -6,7 +6,7 @@
 class FatFreeCRM::Admin::GroupsController < FatFreeCRM::Admin::ApplicationController
   before_action "set_current_tab('admin/groups')", only: [:index, :show]
 
-  load_resource
+  load_resource :group, class: FatFreeCRM::Group
 
   # GET /groups
   #----------------------------------------------------------------------------
