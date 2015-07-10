@@ -6,6 +6,8 @@
 class FatFreeCRM::ApplicationController < ::ApplicationController
   protect_from_forgery
 
+  layout "layouts/fat_free_crm"
+
   before_action :set_context
   before_action :clear_setting_cache
   before_action "hook(:app_before_filter, self)"
