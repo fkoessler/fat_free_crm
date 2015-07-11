@@ -43,6 +43,7 @@ class FatFreeCRM::ContactsController < FatFreeCRM::EntitiesController
       end
     end
 
+    Rails.logger.debug @contact.inspect
     respond_with(@contact)
   end
 
