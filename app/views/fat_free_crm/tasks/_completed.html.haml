@@ -12,9 +12,9 @@
       = link_to_task_delete(completed, bucket)
 
   .indent
-    %strike= auto_link h(completed.name)
+    %strike= auto_link simple_format(completed.name)
     - if completed.asset_id?
-      == #{t :related} #{link_to(h(completed.asset.name), polymorphic_url(completed.asset))}
+      == #{t :related} #{link_to(completed.asset.name, polymorphic_url(completed.asset))}
     &ndash;
     %tt
       %span.cool
