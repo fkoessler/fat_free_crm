@@ -15,6 +15,6 @@ class AddFatFreeCRMFieldsToUsers < ActiveRecord::Migration
     add_column :users, :deleted_at, :datetime
     add_column :users, :suspended_at, :datetime
 
-    add_index :users, [:username, :deleted_at], unique: true
+    add_index :users, [:email, :deleted_at], unique: true
   end
 end
