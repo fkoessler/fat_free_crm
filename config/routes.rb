@@ -10,7 +10,7 @@ FatFreeCRM::Engine.routes.draw do
   root to: 'home#index'
 
   get 'activities' => 'home#index'
-  get 'admin'      => 'admin/users#index',       :as => :admin
+  get 'admin'      => 'admin/groups#index',       :as => :admin
   get 'profile'    => 'users#show',              :as => :profile
 
   get '/home/options',  as: :options
