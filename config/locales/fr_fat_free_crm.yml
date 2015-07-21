@@ -735,9 +735,9 @@ fr:
   #----------------------------------------------------------------------------
   versions: Historique
   version:
-    create: ! Créé par %{by} il y a %{item}.
-    update: ! Modifié par %{by} il y a %{item}.
-    destroy: ! Détruit par %{by} il y a %{item}.
+    create: ! Créé par %{by}.
+    update: ! Modifié par %{by}.
+    destroy: ! Détruit par %{by}.
     set: ! '%{attr} renseigné %{to}'
     unset: ! '%{attr} supprimé'
     change: ! '%{attr} changé de %{from} à %{to}'
