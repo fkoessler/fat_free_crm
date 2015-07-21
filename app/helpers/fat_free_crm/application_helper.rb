@@ -522,4 +522,8 @@ module FatFreeCRM::ApplicationHelper
     options = { renderer: FatFreeCRM::RemoteLinkPaginationHelper::LinkRenderer }.merge(options)
     will_paginate(collection, options)
   end
+
+  def number_to_french_phone(number, separator = ' ')
+    number.split('').in_groups_of(2).collect(&:join).join(separator)
+  end
 end

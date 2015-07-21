@@ -51,10 +51,12 @@ class FatFreeCRM::ApplicationController < ::ApplicationController
   #----------------------------------------------------------------------------
   def auto_complete
     @query = params[:auto_complete_query] || ''
+    Rails.logger.debug 'CHECK QUERY'
+    Rails.logger.debug @query
     @auto_complete = hook(:auto_complete, self, query: @query, user: current_user)
     if @auto_complete.empty?
       exclude_ids = auto_complete_ids_to_exclude(params[:related])
-      @auto_complete = klass.my.text_search(@query).search(id_not_in: exclude_ids).result.limit(10)
+      @auto_complete = klass.my.text_search(@query).search(id_not_in: exclude_ids).result.limit(20)
     else
       @auto_complete = @auto_complete.last
     end
@@ -63,9 +65,15 @@ class FatFreeCRM::ApplicationController < ::ApplicationController
     respond_to do |format|
       format.any(:js, :html)   { render partial: 'auto_complete' }
       format.json do
-        render json: @auto_complete.inject({}){|h, a|
-                       h[a.id] = a.respond_to?(:full_name) ? h(a.category + ' - ' + a.full_name) : h(a.category + ' - ' + a.name); h
-                     }
+        if params[:controller].classify.demodulize.underscore == 'account'
+          render json: @auto_complete.inject({}) { |h, a|
+                   h[a.id] = h(t(a.category).chars.first + ' - ' + a.name + ' - ' + a.billing_address.city); h
+                 }
+        else
+          render json: @auto_complete.inject({}) { |h, a|
+                   h[a.id] = a.respond_to?(:full_name) ? h(a.full_name) : h(a.name); h
+                 }
+        end
       end
     end
   end
