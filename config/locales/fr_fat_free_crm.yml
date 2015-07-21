@@ -738,9 +738,9 @@ fr:
     create: ! Créé par %{by}.
     update: ! Modifié par %{by}.
     destroy: ! Détruit par %{by}.
-    set: ! '%{attr} renseigné %{to}'
-    unset: ! '%{attr} supprimé'
-    change: ! '%{attr} changé de %{from} à %{to}'
+    set_html: ! '%{attr} renseigné %{to}'
+    unset_html: ! '%{attr} supprimé'
+    change_html: ! '%{attr} changé de %{from} à %{to}'
     anonymous: anonyme
   account_contact_id: ID du compte
   account_contact_name: Nom du compte
