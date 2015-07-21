@@ -13,6 +13,11 @@
       == (#{t :related} #{link_to(related.asset.name, polymorphic_url(related.asset))})
     &ndash;
     %tt
+      %span.cool
+        = t(:task_created_by, :time_ago => distance_of_time_in_words(related.created_at, Time.now), :date => l(related.created_at, :format => :long), :user => ((related.user.id != current_user.id) ? link_to(h(related.user.full_name), user_path(related.user)) : t(:me))).html_safe
+    <br/>
+    &ndash;
+    %tt
       - if related.completed_at
         %span.cool
           = t(:task_completed_ago, distance_of_time_in_words(related.completed_at, Time.now))

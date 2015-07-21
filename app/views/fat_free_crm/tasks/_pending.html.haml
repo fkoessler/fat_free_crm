@@ -19,7 +19,12 @@
       - if pending.asset_id?
         =t :related
         = link_to(pending.asset.name, polymorphic_url(pending.asset))
-      &ndash;
+    &ndash;
+    %tt
+      %span.cool
+        = t(:task_created_by, :time_ago => distance_of_time_in_words(pending.created_at, Time.now), :date => l(pending.created_at, :format => :long), :user => ((pending.user.id != current_user.id) ? link_to(h(pending.user.full_name), user_path(pending.user)) : t(:me))).html_safe
+    <br/>
+    &ndash;
     %tt
       - if pending.bucket == "due_asap"
         %span.urgent= t(:task_due_now)

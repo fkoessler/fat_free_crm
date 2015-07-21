@@ -18,6 +18,11 @@
     &ndash;
     %tt
       %span.cool
+        = t(:task_created_by, :time_ago => distance_of_time_in_words(completed.created_at, Time.now), :date => l(completed.created_at, :format => :long), :user => ((completed.user.id != current_user.id) ? link_to(h(completed.user.full_name), user_path(completed.user)) : t(:me))).html_safe
+    <br/>
+    &ndash;
+    %tt
+      %span.cool
         -# :task_completed_by: "completed {{time_ago}} ago by {{user}}"
         = t(:task_completed_by, :time_ago => distance_of_time_in_words(completed.completed_at, Time.now), :date => l(completed.completed_at, :format => :long), :user => ((completed.completor.id != current_user.id) ? link_to(h(completed.completor.full_name), user_path(completed.completor)) : t(:me))).html_safe
     - unless completed.background_info.blank?
