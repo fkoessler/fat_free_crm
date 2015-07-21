@@ -17,6 +17,9 @@
       == #{t :email}: <b>#{link_to_email(@contact.email)}</b><br />
     - unless @contact.alt_email.blank?
       == #{t :alt_email_small}: <b>#{link_to_email(@contact.alt_email)}</b><br />
+  %div
+    - if @contact.ctknid
+      #{t :ctknid}: <b>#{@contact.ctknid}</b><br />
 
   = web_presence_icons(@contact)
 

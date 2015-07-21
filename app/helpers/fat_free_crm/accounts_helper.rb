@@ -107,4 +107,11 @@ module FatFreeCRM::AccountsHelper
         end
     text.html_safe
   end
+
+  # Outputs a string with: account.category - account.name - account.city
+  # Used in the quicksearch jumpbox
+  #----------------------------------------------------------------------------
+  def account_quicksearch(contact)
+    contact.account ? link_to(h(contact.account.name), account_path(contact.account)) : ""
+  end
 end

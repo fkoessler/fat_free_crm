@@ -21,6 +21,10 @@
     - if @account.fax
       #{t :fax}: <b>#{@account.fax}</b><br />
 
+  %div
+    - if @account.clktcode
+      #{t :clktcode}: <b>#{@account.clktcode}</b><br />
+
   %div= render "fat_free_crm/shared/address_show", :asset => @account, :type => 'billing', :title => :billing_address
   %div= render "fat_free_crm/shared/address_show", :asset => @account, :type => 'shipping', :title => :shipping_address
 
