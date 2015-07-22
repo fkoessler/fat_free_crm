@@ -41,7 +41,7 @@ module FatFreeCRM::Admin::UsersHelper
                  t(:user_signed_up)
                elsif user.suspended?
                  t(:user_suspended)
-               elsif user.admin?
+               elsif user.has_role? :administrator
                  t(:user_admin)
                else
                  t(:user_active)

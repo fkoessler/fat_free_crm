@@ -4,7 +4,7 @@
     .strip.signed_up #{t :user_signed_up}
   - elsif user.suspended?
     .strip.suspended #{t :user_suspended}
-  - elsif user.admin?
+  - elsif user.has_role? :administrator
     .strip.admin #{t :user_admin}
   - else
     .strip.active #{t :user_active}
