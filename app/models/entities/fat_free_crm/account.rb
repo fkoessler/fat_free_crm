@@ -96,8 +96,8 @@ class FatFreeCRM::Account < ActiveRecord::Base
   # Attach given attachment to the account if it hasn't been attached already.
   #----------------------------------------------------------------------------
   def attach!(attachment)
-    unless send("#{attachment.class.name.downcase}_ids").include?(attachment.id)
-      send(attachment.class.name.tableize) << attachment
+    unless send("#{attachment.class.name.demodulize.downcase}_ids").include?(attachment.id)
+      send(attachment.class.name.demodulize.tableize) << attachment
     end
   end
 
@@ -107,7 +107,7 @@ class FatFreeCRM::Account < ActiveRecord::Base
     if attachment.is_a?(FatFreeCRM::Task)
       attachment.update_attribute(:asset, nil)
     else # Contacts, Opportunities
-      send(attachment.class.name.tableize).delete(attachment)
+      send(attachment.class.name.demodulize.tableize).delete(attachment)
     end
   end
 

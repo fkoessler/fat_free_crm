@@ -20,9 +20,20 @@ class FatFreeCRM::EntitiesController < FatFreeCRM::ApplicationController
   # Common attach handler for all core controllers.
   #----------------------------------------------------------------------------
   def attach
+    params[:assets] = 'fat_free_crm/' + params[:assets] unless Object.const_defined?(params[:assets].classify)
     @attachment = params[:assets].classify.constantize.find(params[:asset_id])
     @attached = entity.attach!(@attachment)
     entity.reload
+
+    Rails.logger.debug 'PARAMS'
+    Rails.logger.debug 'PARAMS'
+    Rails.logger.debug 'PARAMS'
+    Rails.logger.debug 'PARAMS'
+    Rails.logger.debug 'PARAMS'
+    Rails.logger.debug 'PARAMS'
+    Rails.logger.debug 'PARAMS'
+    Rails.logger.debug 'PARAMS'
+    Rails.logger.debug params
 
     respond_with(entity)
   end

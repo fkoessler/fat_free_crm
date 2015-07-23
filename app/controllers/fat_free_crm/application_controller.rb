@@ -6,6 +6,7 @@
 class FatFreeCRM::ApplicationController < ::ApplicationController
   protect_from_forgery
 
+  before_action :set_current_user
   before_action :set_context
   before_action :clear_setting_cache
   before_action "hook(:app_before_filter, self)"
@@ -93,7 +94,7 @@ class FatFreeCRM::ApplicationController < ::ApplicationController
   end
 
   #
-  # Takes { :related => 'campaigns/7' } or { :related => '5' }
+  # Takes { :related => 'fatfreecrm::accounts/1'}, { :related => 'campaigns/7' } or { :related => '5' }
   #   and returns array of object ids that should be excluded from search
   #   assumes controller_name is a method on 'related' class that returns a collection
   #----------------------------------------------------------------------------
@@ -263,5 +264,11 @@ class FatFreeCRM::ApplicationController < ::ApplicationController
           else
             login_url
     end
+  end
+
+  #----------------------------------------------------------------------------
+  # we need to set User.current_user as it is used in Task and User classes with the 'my' scope
+  def set_current_user
+    User.current_user = current_user
   end
 end

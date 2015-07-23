@@ -1,4 +1,4 @@
-- partial = params[:assets].singularize
+- partial = params[:assets].classify.demodulize.tableize.singularize
 
 - if @attached
   - if partial == "task"
@@ -12,7 +12,7 @@
 
 
   - else
-    $('##{h params[:assets]}').prepend('#{ j render(:partial => "fat_free_crm/#{params[:assets]}/#{partial}", :collection => [ @attachment ]) }');
+    $('##{h params[:assets].classify.demodulize.tableize}').prepend('#{ j render(:partial => "#{params[:assets]}/#{partial}", :collection => [ @attachment ]) }');
     - if called_from_landing_page?(:accounts)
       = refresh_sidebar_for(:accounts, :show, :summary)
     - elsif called_from_landing_page?(:campaigns)
