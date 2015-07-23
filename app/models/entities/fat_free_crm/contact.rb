@@ -138,9 +138,9 @@ class FatFreeCRM::Contact < ActiveRecord::Base
   # Attach given attachment to the contact if it hasn't been attached already.
   #----------------------------------------------------------------------------
   def attach!(attachment)
-    unless send("#{attachment.class.name.downcase}_ids").include?(attachment.id)
-      table_name = attachment.class.name.tableize.gsub('/', '_')
-      send(table_name) << attachment
+    unless send("#{attachment.class.name.demodulize.downcase}_ids").include?(attachment.id)
+      object_name = attachment.class.name.demodulize.tableize
+      send(object_name) << attachment
     end
   end
 

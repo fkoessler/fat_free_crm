@@ -131,9 +131,9 @@ class FatFreeCRM::Opportunity < ActiveRecord::Base
   # Attach given attachment to the opportunity if it hasn't been attached already.
   #----------------------------------------------------------------------------
   def attach!(attachment)
-    unless send("#{attachment.class.name.downcase}_ids").include?(attachment.id)
-      table_name = attachment.class.name.tableize.gsub('/', '_')
-      send(table_name) << attachment
+    unless send("#{attachment.class.name.demodulize.downcase}_ids").include?(attachment.id)
+      object_name = attachment.class.name.demodulize.tableize
+      send(object_name) << attachment
     end
   end
 
@@ -143,8 +143,8 @@ class FatFreeCRM::Opportunity < ActiveRecord::Base
     if attachment.is_a?(FatFreeCRM::Task)
       attachment.update_attribute(:asset, nil)
     else # Contacts
-      table_name = attachment.class.name.tableize.gsub!('/', '_')
-      send(table_name).delete(attachment)
+      object_name = attachment.class.name.demodulize.tableize
+      send(object_name).delete(attachment)
     end
   end
 

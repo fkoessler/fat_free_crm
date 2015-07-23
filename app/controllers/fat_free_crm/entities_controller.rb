@@ -25,16 +25,6 @@ class FatFreeCRM::EntitiesController < FatFreeCRM::ApplicationController
     @attached = entity.attach!(@attachment)
     entity.reload
 
-    Rails.logger.debug 'PARAMS'
-    Rails.logger.debug 'PARAMS'
-    Rails.logger.debug 'PARAMS'
-    Rails.logger.debug 'PARAMS'
-    Rails.logger.debug 'PARAMS'
-    Rails.logger.debug 'PARAMS'
-    Rails.logger.debug 'PARAMS'
-    Rails.logger.debug 'PARAMS'
-    Rails.logger.debug params
-
     respond_with(entity)
   end
 
