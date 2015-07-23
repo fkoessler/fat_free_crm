@@ -51,8 +51,6 @@ class FatFreeCRM::ApplicationController < ::ApplicationController
   #----------------------------------------------------------------------------
   def auto_complete
     @query = params[:auto_complete_query] || ''
-    Rails.logger.debug 'CHECK QUERY'
-    Rails.logger.debug @query
     @auto_complete = hook(:auto_complete, self, query: @query, user: current_user)
     if @auto_complete.empty?
       exclude_ids = auto_complete_ids_to_exclude(params[:related])
@@ -67,7 +65,11 @@ class FatFreeCRM::ApplicationController < ::ApplicationController
       format.json do
         if params[:controller].classify.demodulize.underscore == 'account'
           render json: @auto_complete.inject({}) { |h, a|
-                   h[a.id] = h(t(a.category).chars.first + ' - ' + a.name + ' - ' + a.billing_address.city); h
+                   account_string = ''
+                   account_string += "#{t(a.category).chars.first.to_s} - " unless a.category.nil?
+                   account_string += a.name
+                   account_string += " - #{a.billing_address.city}" unless a.billing_address.nil?
+                   h[a.id] = h(account_string); h
                  }
         else
           render json: @auto_complete.inject({}) { |h, a|
