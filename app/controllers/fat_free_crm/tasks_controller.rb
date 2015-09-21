@@ -168,6 +168,18 @@ class FatFreeCRM::TasksController < FatFreeCRM::ApplicationController
     end
   end
 
+  # POST /tasks/1/email
+  # Share a task by email
+  #----------------------------------------------------------------------------
+  def  email
+    task = FatFreeCRM::Task.tracked_by(current_user).find(params[:id])
+    @recipient = email_params[:recipient]
+    FatFreeCRM::TaskMailer.task_details(task, current_user, @recipient).deliver_now
+    respond_to do |format|
+      format.js { render 'fat_free_crm/tasks/email' }
+    end
+  end
+
   protected
 
   def task_params
@@ -216,5 +228,9 @@ class FatFreeCRM::TasksController < FatFreeCRM::ApplicationController
     view = params[:view]
     views = FatFreeCRM::Task::ALLOWED_VIEWS
     views.include?(view) ? view : views.first
+  end
+
+  def email_params
+    params.permit(:recipient)
   end
 end

@@ -1,0 +1,30 @@
+%p= t('fat_free_crm.task_mailer.task_details.subject', username: @username) + ' :'
+%p
+  =simple_format @name
+%p
+  Détails de la tâche :
+  %br
+  - unless @category.empty?
+    %br
+    ="Catégorie : #{t(@category)}"
+  %br
+  ="Deadline : #{@due_at}"
+  %br
+  ="Créee par : #{@created_by} le #{@created_at.strftime('%d/%m/%Y')}"
+  - unless @assigned_to.nil?
+    %br
+    ="Assignée à : #{@assigned_to}"
+  - unless @completed_at.nil?
+    %br
+    ="Complétée le : #{@completed_at} par #{@completed_by}"
+- if @has_contact
+  %p
+  ="Contact pour cette tâche : #{@contact_name}"
+  -unless @contact_phone.empty?
+    %br
+    ="Téléphone : #{@contact_phone}"
+  -unless @contact_email.empty?
+    %br
+    ="Email : #{@contact_email}"
+
+

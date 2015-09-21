@@ -55,3 +55,13 @@
     - unless pending.background_info.blank?
       %div
         %dt= h(pending.background_info)
+
+    %p
+      %span.fake-link{onclick: "$('#send_by_email_#{pending.id}').show();"}
+        =content_tag(:span, "&#9658;".html_safe, class: :arrow)
+        =t(:send_by_email)
+      .remote.link{id: "send_by_email_#{pending.id}", style: "display: none;"}
+        = form_tag(email_task_path(pending), remote: true) do
+          = email_field_tag :recipient
+          = submit_tag t(:send_by_email)
+        %span.close{onclick: "$('#send_by_email_#{pending.id}').hide();"}= "x"

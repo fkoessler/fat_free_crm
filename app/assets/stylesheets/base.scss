@@ -40,6 +40,15 @@ ul li {
 
 // Links.
 //------------------------------------------------------------------------------
+.fake-link {
+  color: $color_link;
+  cursor: pointer;
+  &:hover {
+    background: $color_link_hover_background;
+    color: $color_link_hover;
+  }
+}
+
 a {
   text-decoration: none;
   &:link, &:visited {

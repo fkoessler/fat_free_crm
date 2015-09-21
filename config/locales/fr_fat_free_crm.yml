@@ -532,7 +532,7 @@ fr:
   task_uncomplete: Revenir
   task_completed_ago: complétée il y à %{value}
   task_completed_by: complétée il y à %{time_ago} par %{user}
-  task_created_by: complété il y à %{time_ago} par %{user}
+  task_created_by: créée il y à %{time_ago} par %{user}
   task_created: La tâche à été créée
   task_due_in: échéance dans %{value}
   task_due_later: à faire bientôt
@@ -937,3 +937,11 @@ fr:
     from_to: De %{from} à %{to}
     from_only: De %{from}
     to_only: A %{to}
+
+  send_by_email: 'Envoyer par Email'
+
+  task_email_sent: "L'email a bien été envoyé à %{recipient}."
+  fat_free_crm:
+    task_mailer:
+      task_details:
+        subject: "%{username} a partagé une tâche avec vous"

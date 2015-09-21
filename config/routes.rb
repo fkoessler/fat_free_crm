@@ -131,6 +131,7 @@ FatFreeCRM::Engine.routes.draw do
     member do
       put :complete
       put :uncomplete
+      post :email
     end
   end
 
