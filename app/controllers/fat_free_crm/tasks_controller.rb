@@ -172,14 +172,9 @@ class FatFreeCRM::TasksController < FatFreeCRM::ApplicationController
   # Share a task by email
   #----------------------------------------------------------------------------
   def  email
-    @view = view
-
-    Rails.logger.debug 'CHECK VIEW HEERERERE'
-    Rails.logger.debug @view
-
     task = FatFreeCRM::Task.tracked_by(current_user).find(params[:id])
     @recipient = email_params[:recipient]
-    FatFreeCRM::TaskMailer.task_details(task, current_user, @recipient).deliver_now
+    FatFreeCRM::TaskMailer.task_details(task, view, current_user, @recipient).deliver_now
     respond_to do |format|
       format.js { render 'fat_free_crm/tasks/email' }
     end

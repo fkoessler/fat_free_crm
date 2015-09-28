@@ -941,6 +941,8 @@ fr:
   send_by_email: 'Envoyer par Email'
 
   task_email_sent: "L'email a bien été envoyé à %{recipient}."
+  click_link_to_see_task_in_crm: "Cliquez le lien pour voir la tâche dans l'application CRM : "
+  link: "Lien"
   fat_free_crm:
     task_mailer:
       task_details:

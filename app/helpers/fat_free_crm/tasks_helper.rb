@@ -32,8 +32,8 @@ module FatFreeCRM::TasksHelper
   end
 
   #----------------------------------------------------------------------------
-  def link_to_task_index(task)
-    link_to(t(:index), tasks_path(task, view: @view), method: :get)
+  def link_to_task_index(task, view)
+    link_to(t('link'), "#{tasks_url(view: view)}#task_#{task.id}")
   end
 
   #----------------------------------------------------------------------------

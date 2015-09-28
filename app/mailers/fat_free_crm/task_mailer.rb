@@ -5,11 +5,11 @@
 #------------------------------------------------------------------------------
 class FatFreeCRM::TaskMailer < ActionMailer::Base
 
-  include ApplicationHelper
+  include ActionView::Helpers::UrlHelper
   include FatFreeCRM::TasksHelper
   default from: 'intranet@fahrner.fr'
 
-  def task_details(task, user, recipient)
+  def task_details(task, view, user, recipient)
     @name = task.name
     @category = task.category
     @due_at = task.due_at.try(:strftime, '%d/%m/%Y %H:%M') || 'ASAP'
@@ -24,14 +24,21 @@ class FatFreeCRM::TaskMailer < ActionMailer::Base
       @contact_name = task.asset.name
       @contact_email = task.asset.email
       @contact_phone = task.asset.phone
+      @contact_toll_free_phone = task.asset.toll_free_phone
+      @contact_fax = task.asset.fax
     end
     if task.asset_type == 'FatFreeCRM::Contact'
       @has_contact = true
       @contact_name = task.asset.full_name
       @contact_email = task.asset.email
+      @contact_alt_email = task.asset.alt_email
       @contact_phone = task.asset.phone
+      @contact_mobile = task.asset.mobile
+      @contact_fax = task.asset.fax
     end
-    # @link = link_to_task_index(task)
+    @link = link_to_task_index(task, view)
+    Rails.logger.debug 'CHECK LINKKK'
+    Rails.logger.debug @link
 
     mail subject: default_i18n_subject(username: @username),
          to: recipient

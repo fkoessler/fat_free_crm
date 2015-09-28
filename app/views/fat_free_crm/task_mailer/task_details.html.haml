@@ -1,6 +1,7 @@
 %p= t('fat_free_crm.task_mailer.task_details.subject', username: @username) + ' :'
 %p
   =simple_format @name
+%br
 %p
   Détails de la tâche :
   %br
@@ -10,7 +11,7 @@
   %br
   ="Deadline : #{@due_at}"
   %br
-  ="Créee par : #{@created_by} le #{@created_at.strftime('%d/%m/%Y')}"
+  ="Créée par : #{@created_by} le #{@created_at.strftime('%d/%m/%Y')}"
   - unless @assigned_to.nil?
     %br
     ="Assignée à : #{@assigned_to}"
@@ -20,11 +21,26 @@
 - if @has_contact
   %p
   ="Contact pour cette tâche : #{@contact_name}"
-  -unless @contact_phone.empty?
+  -unless @contact_phone.nil?
     %br
     ="Téléphone : #{@contact_phone}"
-  -unless @contact_email.empty?
+  -unless @contact_toll_free_phone.nil?
+    %br
+    ="Numéro vert : #{@contact_toll_free_phone}"
+  -unless @contact_mobile.nil?
+    %br
+    ="Mobile : #{@contact_mobile}"
+  -unless @contact_fax.nil?
+    %br
+    ="Mobile : #{@contact_fax}"
+  -unless @contact_email.nil?
     %br
     ="Email : #{@contact_email}"
+  -unless @contact_alt_email.nil?
+    %br
+    ="Email secondaire : #{@contact_alt_email}"
 
--#= "view task: #{@link}"
+%p
+  %small
+    =t('click_link_to_see_task_in_crm')
+    =raw "#{@link}"
