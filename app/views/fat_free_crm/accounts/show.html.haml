@@ -15,9 +15,9 @@
 
   = hook(:show_account_bottom, self, {entity: @account}) do
 
-    = render :partial => "fat_free_crm/tasks/tasks", :locals => {:object => @account}
-
     = render "fat_free_crm/contacts/contacts", :object => @account
+
+    = render :partial => "fat_free_crm/tasks/tasks", :locals => {:object => @account}
 
     = render "fat_free_crm/opportunities/opportunities", :object => @account
 

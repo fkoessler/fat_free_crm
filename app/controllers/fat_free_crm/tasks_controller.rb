@@ -24,7 +24,7 @@ class FatFreeCRM::TasksController < FatFreeCRM::ApplicationController
   # GET /tasks/1
   #----------------------------------------------------------------------------
   def show
-    @task = Task.tracked_by(current_user).find(params[:id])
+    @task = FatFreeCRM::Task.tracked_by(current_user).find(params[:id])
     respond_with(@task)
   end
 
@@ -172,6 +172,11 @@ class FatFreeCRM::TasksController < FatFreeCRM::ApplicationController
   # Share a task by email
   #----------------------------------------------------------------------------
   def  email
+    @view = view
+
+    Rails.logger.debug 'CHECK VIEW HEERERERE'
+    Rails.logger.debug @view
+
     task = FatFreeCRM::Task.tracked_by(current_user).find(params[:id])
     @recipient = email_params[:recipient]
     FatFreeCRM::TaskMailer.task_details(task, current_user, @recipient).deliver_now

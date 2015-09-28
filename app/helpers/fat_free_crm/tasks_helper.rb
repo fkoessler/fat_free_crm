@@ -32,6 +32,11 @@ module FatFreeCRM::TasksHelper
   end
 
   #----------------------------------------------------------------------------
+  def link_to_task_index(task)
+    link_to(t(:index), tasks_path(task, view: @view), method: :get)
+  end
+
+  #----------------------------------------------------------------------------
   def link_to_task_edit(task, bucket)
     link_to(t(:edit), edit_task_path(task, bucket: bucket, view: @view, previous: "crm.find_form('edit_task')"),
             method: :get, remote: true)

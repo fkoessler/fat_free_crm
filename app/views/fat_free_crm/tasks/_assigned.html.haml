@@ -58,5 +58,6 @@
       .remote.link{id: "send_by_email_#{assigned.id}", style: "display: none;"}
         = form_tag(email_task_path(assigned), remote: true) do
           = email_field_tag :recipient
+          = hidden_field_tag :view, 'assigned'
           = submit_tag t(:send_by_email)
         %span.close{onclick: "$('#send_by_email_#{assigned.id}').hide();"}= "x"

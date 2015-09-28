@@ -5,6 +5,8 @@
 #------------------------------------------------------------------------------
 class FatFreeCRM::TaskMailer < ActionMailer::Base
 
+  include ApplicationHelper
+  include FatFreeCRM::TasksHelper
   default from: 'intranet@fahrner.fr'
 
   def task_details(task, user, recipient)
@@ -29,6 +31,7 @@ class FatFreeCRM::TaskMailer < ActionMailer::Base
       @contact_email = task.asset.email
       @contact_phone = task.asset.phone
     end
+    # @link = link_to_task_index(task)
 
     mail subject: default_i18n_subject(username: @username),
          to: recipient
