@@ -37,10 +37,9 @@ class FatFreeCRM::TaskMailer < ActionMailer::Base
       @contact_fax = task.asset.fax
     end
     @link = link_to_task_index(task, view)
-    Rails.logger.debug 'CHECK LINKKK'
-    Rails.logger.debug @link
 
     mail subject: default_i18n_subject(username: @username),
-         to: recipient
+         to: recipient,
+         cc: user.email
   end
 end
