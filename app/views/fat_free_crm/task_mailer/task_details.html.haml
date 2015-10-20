@@ -12,33 +12,50 @@
   ="Deadline : #{@due_at}"
   %br
   ="Créée par : #{@created_by} le #{@created_at.strftime('%d/%m/%Y')}"
-  - unless @assigned_to.nil?
+  - unless @assigned_to.blank?
     %br
     ="Assignée à : #{@assigned_to}"
-  - unless @completed_at.nil?
+  - unless @completed_at.blank?
     %br
     ="Complétée le : #{@completed_at} par #{@completed_by}"
+
 - if @has_contact
   %p
-  ="Contact pour cette tâche : #{@contact_name}"
-  -unless @contact_phone.nil?
+  ="Contact : #{@contact_name}"
+  -unless @contact_phone.blank?
     %br
     ="Téléphone : #{@contact_phone}"
-  -unless @contact_toll_free_phone.nil?
-    %br
-    ="Numéro vert : #{@contact_toll_free_phone}"
-  -unless @contact_mobile.nil?
+  -unless @contact_mobile.blank?
     %br
     ="Mobile : #{@contact_mobile}"
-  -unless @contact_fax.nil?
+  -unless @contact_fax.blank?
     %br
-    ="Mobile : #{@contact_fax}"
-  -unless @contact_email.nil?
+    ="Fax : #{@contact_fax}"
+  -unless @contact_email.blank?
     %br
     ="Email : #{@contact_email}"
-  -unless @contact_alt_email.nil?
+  -unless @contact_alt_email.blank?
     %br
     ="Email secondaire : #{@contact_alt_email}"
+
+- if @has_account
+  %p
+  ="Compte : #{@account_name}"
+  -unless @account_phone.blank?
+    %br
+    ="Téléphone : #{@account_phone}"
+  -unless @account_toll_free_phone.blank?
+    %br
+    ="Numéro vert : #{@account_toll_free_phone}"
+  -unless @account_fax.blank?
+    %brfrancois@fkoessler.net
+    ="Mobile : #{@account_fax}"
+  -unless @account_email.blank?
+    %br
+    ="Email : #{@account_email}"
+  -unless @account_clktcode.blank?
+    %br
+    ="Code PMI : #{@account_clktcode}"
 
 %p
   %small

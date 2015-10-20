@@ -19,15 +19,16 @@ class FatFreeCRM::TaskMailer < ActionMailer::Base
     @completed_by = task.completor.try(:full_name)
     @completed_at = task.completed_at.try(:strftime, '%d/%m/%Y %H:%M')
     @assigned_to = task.assignee.try(:full_name)
-    if task.asset_type == 'FatFreeCRM::Account'
-      @has_contact = true
-      @contact_name = task.asset.name
-      @contact_email = task.asset.email
-      @contact_phone = task.asset.phone
-      @contact_toll_free_phone = task.asset.toll_free_phone
-      @contact_fax = task.asset.fax
-    end
     if task.asset_type == 'FatFreeCRM::Contact'
+      if task.asset.account
+        @has_account = true
+        @account_name = task.asset.account.name
+        @account_email = task.asset.account.email
+        @account_phone = task.asset.account.phone
+        @account_toll_free_phone = task.asset.account.toll_free_phone
+        @account_fax = task.asset.account.fax
+        @account_clktcode = task.asset.account.clktcode
+      end
       @has_contact = true
       @contact_name = task.asset.full_name
       @contact_email = task.asset.email
@@ -35,6 +36,15 @@ class FatFreeCRM::TaskMailer < ActionMailer::Base
       @contact_phone = task.asset.phone
       @contact_mobile = task.asset.mobile
       @contact_fax = task.asset.fax
+    end
+    if task.asset_type == 'FatFreeCRM::Account'
+      @has_account = true
+      @account_name = task.asset.name
+      @account_email = task.asset.email
+      @account_phone = task.asset.phone
+      @account_toll_free_phone = task.asset.toll_free_phone
+      @account_fax = task.asset.fax
+      @account_clktcode = task.asset.clktcode
     end
     @link = link_to_task_index(task, view)
 
