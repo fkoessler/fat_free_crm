@@ -16,7 +16,6 @@
   %li{id: "#{activity.class.name.demodulize.underscore}_#{activity.id}", class: "#{activity.class.name.demodulize.underscore}"}
     .tools
       %small
-        = activity.created_at
         = l(activity.created_at, :format => :short)
     %tt
       - if known_event
