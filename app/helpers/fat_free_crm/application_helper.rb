@@ -299,11 +299,11 @@ module FatFreeCRM::ApplicationHelper
 
   # Ajax helper to pass browser timezone offset to the server.
   #----------------------------------------------------------------------------
-  def get_browser_timezone_offset
-    unless session[:timezone_offset]
-      "$.get('#{timezone_path}', {offset: (new Date()).getTimezoneOffset()});"
-    end
-  end
+  # def get_browser_timezone_offset
+  #   unless session[:timezone_offset]
+  #     "$.get('#{timezone_path}', {offset: (new Date()).getTimezoneOffset()});"
+  #   end
+  # end
 
   # Entities can have associated avatars or gravatars. Only calls Gravatar
   # in production env. Gravatar won't serve default images if they are not

@@ -81,6 +81,7 @@ class FatFreeCRM::HomeController < FatFreeCRM::ApplicationController
     # (new Date()).getTimezoneOffset() in JavaScript returns (UTC - localtime) in
     # minutes, while ActiveSupport::TimeZone expects (localtime - UTC) in seconds.
     #
+    # Francois: method timezone not used anymore
     if params[:offset]
       session[:timezone_offset] = params[:offset].to_i * -60
       ActiveSupport::TimeZone[session[:timezone_offset]]

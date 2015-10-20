@@ -123,7 +123,9 @@ class FatFreeCRM::ApplicationController < ::ApplicationController
 
   #----------------------------------------------------------------------------
   def set_context
-    Time.zone = ActiveSupport::TimeZone[session[:timezone_offset]] if session[:timezone_offset]
+    # Francois : we don't need this!
+    # Timezones work perfectly well and this line induces error in the displayed time
+    # Time.zone = ActiveSupport::TimeZone[session[:timezone_offset]] if session[:timezone_offset]
     if current_user.present? && (locale = current_user.preference[:locale]).present?
       I18n.locale = locale
     elsif FatFreeCRM::Setting.locale.present?
