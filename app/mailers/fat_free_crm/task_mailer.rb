@@ -36,6 +36,7 @@ class FatFreeCRM::TaskMailer < ActionMailer::Base
       @contact_phone = task.asset.phone
       @contact_mobile = task.asset.mobile
       @contact_fax = task.asset.fax
+      @contact_ctknid = task.asset.ctknid
     end
     if task.asset_type == 'FatFreeCRM::Account'
       @has_account = true

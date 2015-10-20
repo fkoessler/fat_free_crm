@@ -37,6 +37,9 @@
   -unless @contact_alt_email.blank?
     %br
     ="Email secondaire : #{@contact_alt_email}"
+  -unless @contact_ctknid.blank?
+    %br
+    ="Code PMI : #{@contact_ctknid}"
 
 - if @has_account
   %p
