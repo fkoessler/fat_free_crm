@@ -28,6 +28,36 @@ class FatFreeCRM::TaskMailer < ActionMailer::Base
         @account_toll_free_phone = task.asset.account.toll_free_phone
         @account_fax = task.asset.account.fax
         @account_clktcode = task.asset.account.clktcode
+        if task.asset.business_address
+          @contact_business_address =
+              "#{task.asset.business_address.street1}
+              #{task.asset.business_address.street2},
+              #{task.asset.business_address.city} ,
+              #{task.asset.business_address.zipcode}
+              #{task.asset.business_address.state} ,
+              #{task.asset.business_address.country}
+              "
+        end
+        if task.asset.account.billing_address
+          @account_billing_address =
+              "#{task.asset.account.billing_address.street1}
+              #{task.asset.account.billing_address.street2},
+              #{task.asset.account.billing_address.city} ,
+              #{task.asset.account.billing_address.zipcode}
+              #{task.asset.account.billing_address.state} ,
+              #{task.asset.account.billing_address.country}
+              "
+        end
+        if task.asset.account.shipping_address
+          @account_shipping_address =
+              "#{task.asset.account.shipping_address.street1}
+              #{task.asset.account.shipping_address.street2},
+              #{task.asset.account.shipping_address.city} ,
+              #{task.asset.account.shipping_address.zipcode}
+              #{task.asset.account.shipping_address.state} ,
+              #{task.asset.account.shipping_address.country}
+              "
+        end
       end
       @has_contact = true
       @contact_name = task.asset.full_name
@@ -46,6 +76,26 @@ class FatFreeCRM::TaskMailer < ActionMailer::Base
       @account_toll_free_phone = task.asset.toll_free_phone
       @account_fax = task.asset.fax
       @account_clktcode = task.asset.clktcode
+      if task.asset.billing_address
+        @account_billing_address =
+            "#{task.asset.billing_address.street1}
+            #{task.asset.billing_address.street2},
+              #{task.asset.billing_address.city} ,
+              #{task.asset.billing_address.zipcode}
+            #{task.asset.billing_address.state} ,
+              #{task.asset.billing_address.country}
+            "
+      end
+      if task.asset.shipping_address
+        @account_shipping_address =
+            "#{task.asset.shipping_address.street1}
+            #{task.asset.shipping_address.street2},
+              #{task.asset.shipping_address.city} ,
+              #{task.asset.shipping_address.zipcode}
+            #{task.asset.shipping_address.state} ,
+              #{task.asset.shipping_address.country}
+            "
+      end
     end
     @link = link_to_task_index(task, view)
 

@@ -40,6 +40,9 @@
   -unless @contact_ctknid.blank?
     %br
     ="Code PMI : #{@contact_ctknid}"
+  -if @contact_business_address
+    %br
+    = "Adresse : #{@contact_business_address}"
 
 - if @has_account
   %p
@@ -51,7 +54,7 @@
     %br
     ="Numéro vert : #{@account_toll_free_phone}"
   -unless @account_fax.blank?
-    %brfrancois@fkoessler.net
+    %br
     ="Mobile : #{@account_fax}"
   -unless @account_email.blank?
     %br
@@ -59,6 +62,13 @@
   -unless @account_clktcode.blank?
     %br
     ="Code PMI : #{@account_clktcode}"
+  -if @account_billing_address
+    %br
+    = "Adresse de facturation : #{@account_billing_address}"
+  -if @account_shipping_address
+    %br
+    = "Adresse de livraison : #{@account_shipping_address}"
+
 
 %p
   %small
