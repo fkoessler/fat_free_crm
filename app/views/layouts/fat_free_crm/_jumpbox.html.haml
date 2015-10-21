@@ -1,4 +1,4 @@
-- current_auto_complete = session[:auto_complete] || :accounts
+- current_auto_complete = session[:auto_complete] || 'accounts'
 = content_for(:javascript_epilogue) do
   :plain
     (function ($) {

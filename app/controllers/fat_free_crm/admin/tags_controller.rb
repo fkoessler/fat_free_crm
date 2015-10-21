@@ -12,15 +12,7 @@ class FatFreeCRM::Admin::TagsController < FatFreeCRM::Admin::ApplicationControll
   # GET /admin/tags.xml                                                   HTML
   #----------------------------------------------------------------------------
   def index
-    Rails.logger.debug 'BEFORE GET TAGSSS'
-    Rails.logger.debug 'BEFORE GET TAGSSS'
-    Rails.logger.debug 'BEFORE GET TAGSSS'
-    Rails.logger.debug 'BEFORE GET TAGSSS'
     @tags = FatFreeCRM::Tag.all
-    Rails.logger.debug 'BEFORE RESPOND_WITHHHHH'
-    Rails.logger.debug 'BEFORE RESPOND_WITHHHHH'
-    Rails.logger.debug 'BEFORE RESPOND_WITHHHHH'
-    Rails.logger.debug 'BEFORE RESPOND_WITHHHHH'
     respond_with(@tags)
   end
 

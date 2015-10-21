@@ -175,7 +175,7 @@ module FatFreeCRM::ApplicationHelper
 
   #----------------------------------------------------------------------------
   def jumpbox(current)
-    tabs = [:campaigns, :accounts, :leads, :contacts, :opportunities]
+    tabs = ['campaigns', 'accounts', 'leads', 'contacts', 'opportunities']
     current = tabs.first unless tabs.include?(current)
     tabs.map do |tab|
       link_to_function(t("tab_#{tab}"), "crm.jumper('#{tab}')", "html-data" => tab, class: (tab == current ? 'selected' : ''))

@@ -60,7 +60,7 @@ class FatFreeCRM::ApplicationController < ::ApplicationController
       @auto_complete = @auto_complete.last
     end
 
-    session[:auto_complete] = controller_name.to_sym
+    session[:auto_complete] = controller_name
     respond_to do |format|
       format.any(:js, :html)   { render partial: 'auto_complete' }
       format.json do
@@ -124,7 +124,7 @@ class FatFreeCRM::ApplicationController < ::ApplicationController
   #----------------------------------------------------------------------------
   def set_context
     # Francois : we don't need this!
-    # Timezones work perfectly well and this line induces error in the displayed time
+    # Timezones work perfectly well as is and this line induces error in the displayed time
     # Time.zone = ActiveSupport::TimeZone[session[:timezone_offset]] if session[:timezone_offset]
     if current_user.present? && (locale = current_user.preference[:locale]).present?
       I18n.locale = locale
