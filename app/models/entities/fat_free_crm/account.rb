@@ -76,6 +76,8 @@ class FatFreeCRM::Account < ActiveRecord::Base
   validates :rating, inclusion: { in: 0..5 }, allow_blank: true
   validates :category, inclusion: { in: proc { FatFreeCRM::Setting.unroll(:account_category).map { |s| s.last.to_s } } }, allow_blank: true
   validate :users_for_shared_access
+  validates_length_of :clktsoc, maximum: 8
+  validates_length_of :clktcode, maximum: 8
 
   before_save :nullify_blank_category
 

@@ -96,6 +96,8 @@ class FatFreeCRM::Contact < ActiveRecord::Base
   validates_presence_of :last_name,  message: :missing_last_name,  if: -> { FatFreeCRM::Setting.require_last_names  }
   # validates_uniqueness_of :ctknid, scope: [:ctktsoc]
   validate :users_for_shared_access
+  validates_length_of :ctktsoc, maximum: 8
+  validates_length_of :ctknid, maximum: 8
 
   # Default values provided through class methods.
   #----------------------------------------------------------------------------
